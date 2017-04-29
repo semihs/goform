@@ -323,6 +323,54 @@ func main() {
 }
 ```
 
+### Build Query
+
+```go
+package main
+
+import (
+	"fmt"
+	"github.com/semihs/goform"
+	"net/http"
+	"text/template"
+)
+
+var view string = `
+<form method="post" action="">
+{{range .GetElements}}
+  {{.Render}}
+{{end}}
+</form>
+`
+
+func main() {
+	email := goform.NewEmailElement("email", "Email", []*goform.Attribute{}, []goform.ValidatorInterface{
+		&goform.RequiredValidator{},
+	})
+	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{})
+	submit := goform.NewButtonElement("submit", "Login", []*goform.Attribute{})
+
+	form := goform.NewGoForm()
+	form.Add(email)
+	form.Add(password)
+	form.Add(submit)
+
+	tpl, _ := template.New("tpl").Parse(view)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/html")
+		if r.Method != "POST" {
+			tpl.Execute(w, form)
+			return
+		}
+		r.ParseForm()
+		form.BindFromRequest(r)
+		fmt.Println(form.BuildQuery())
+	})
+	http.ListenAndServe(":2626", nil)
+
+}
+```
+
 ### Elements
 
 #### Text Element
@@ -396,3 +444,8 @@ goform.NewButtonElement("submit", "Save", []*goform.Attribute{})
 ```go
 goform.NewSubmitElement("submit", "Save", []*goform.Attribute{})
 ```
+
+##Todo List
+* Input Filters (tolower, toupper, alpha, numeric...)
+* Validations (identical, min-max length, min-max value, alpha, regex...)
+* Tests
