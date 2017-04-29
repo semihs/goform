@@ -1,7 +1,7 @@
-#GoForm (GoLang Web Forms)
+# GoForm (GoLang Web Forms)
 Golang Web Forms validations, rendering and binding.
 
-##Features
+## Features
 * HTML5 Support
 * Bind From Interface
 * Bind From Request
@@ -10,17 +10,17 @@ Golang Web Forms validations, rendering and binding.
 * Build Query String
 * Template
 
-##Installation
+## Installation
 ```
 go get github.com/semihs/goform
 ```
 
-##Examples
+## Examples
 See [examples](https://github.com/semihs/goform/tree/master/samples).
 
-##Usage
+## Usage
 
-###Make a form
+### Make a form
 
 ```go
 package main
@@ -69,7 +69,7 @@ func main() {
 }
 ```
 
-###Bind From Request
+### Bind From Request
 
 ```go
 package main
@@ -117,7 +117,7 @@ func main() {
 }
 ```
 
-###Bind From Interface
+### Bind From Interface
 
 ```go
 package main
@@ -171,7 +171,7 @@ func main() {
 }
 ```
 
-###Map to your struct
+### Map to your struct
 
 ```go
 package main
@@ -227,7 +227,7 @@ func main() {
 }
 ```
 
-###Validate a request
+### Validate a request
 
 ```go
 package main
@@ -278,7 +278,7 @@ func main() {
 }
 ```
 
-###Change Template
+### Change Template
 goform provides bootstrap 4 alpha textual and inline templates, if you want to make custom template look at the template.go and use SetTemplate method form. Your template must be goform.Theme type
 
 ```go
@@ -323,76 +323,76 @@ func main() {
 }
 ```
 
-###Elements
+### Elements
 
-####Text Element
+#### Text Element
 ```go
 goform.NewTextElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
 ```
-####Textarea Element
+#### Textarea Element
 ```go
 goform.NewTextareaElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
 ```
-####Email Element
+#### Email Element
 ```go
 goform.NewEmailElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
 ```
-####Checkbox Element
+#### Checkbox Element
 ```go
 goform.NewCheckboxElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
 ```
-####Select Element
+#### Select Element
 ```go
 goform.NewSelectElement("element_name", "Element Label", []*goform.Attribute{}, []*goform.ValueOption{
     &goform.ValueOption{Value: "1", Label: "Option 1"},
     &goform.ValueOption{Value: "2", Label: "Option 2"},
 }, []goform.ValidatorInterface{})
 ```
-####Radio Element
+#### Radio Element
 ```go
 goform.NewRadioElement("element_name", "Element Label", []*goform.Attribute{}, []*goform.ValueOption{
     &goform.ValueOption{Value: "1", Label: "Option 1"},
     &goform.ValueOption{Value: "2", Label: "Option 2"},
 }, []goform.ValidatorInterface{})
 ```
-####Multicheckbox Element
+#### Multicheckbox Element
 ```go
 goform.NewMultiCheckboxElement("element_name", "Element Label", []*goform.Attribute{}, []*goform.ValueOption{
     &goform.ValueOption{Value: "1", Label: "Option 1"},
     &goform.ValueOption{Value: "2", Label: "Option 2"},
 }, []goform.ValidatorInterface{})
 ```
-####Number Element
+#### Number Element
 ```go
 goform.NewNumberElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
 ```
-####Search Element
+#### Search Element
 ```go
 goform.NewSearchElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
 ```
-####Tel Element
+#### Tel Element
 ```go
 goform.NewTelElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
 ```
-####Hidden Element
+#### Hidden Element
 ```go
 goform.NewHiddenElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
 ```
-####Password Element
+#### Password Element
 ```go
 goform.NewPasswordElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
 ```
-####Image Element
+#### Image Element
 ```go
 goform.NewImageElement("element_name", "Element Label", []*goform.Attribute{
         &goform.Attribute{Key:"src", Value: "/img/src/image.png"}
 }, []goform.ValidatorInterface{})
 ```
-####Button Element
+#### Button Element
 ```go
 goform.NewButtonElement("submit", "Save", []*goform.Attribute{})
 ```
-####Submit Element
+#### Submit Element
 ```go
 goform.NewSubmitElement("submit", "Save", []*goform.Attribute{})
 ```
