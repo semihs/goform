@@ -4,8 +4,10 @@ import (
 	"errors"
 	"fmt"
 	"github.com/vincent-petithory/dataurl"
+	"io"
 	"io/ioutil"
 	"mime/multipart"
+	"os"
 	"strings"
 )
 
@@ -71,9 +73,10 @@ type ElementInterface interface {
 }
 
 type File struct {
-	Headers map[string][]string
-	Name    string
-	Binary  multipart.File
+	Headers   map[string][]string
+	Name      string
+	Extension string
+	Binary    multipart.File
 }
 
 func (file *File) ToString() string {
@@ -82,10 +85,22 @@ func (file *File) ToString() string {
 	}
 	b, err := ioutil.ReadAll(file.Binary)
 	if err != nil {
-		fmt.Errorf("File reader error %v", err)
+		fmt.Println("File reader error", err)
 	}
 	dataUrl := dataurl.New(b, strings.Join(file.Headers["Content-Type"], ";"))
 	return string(dataUrl.String())
+}
+
+func (file *File) SaveTo(path string) error {
+	f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0775)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	defer f.Close()
+	io.Copy(f, file.Binary)
+
+	return nil
 }
 
 type Attribute struct {

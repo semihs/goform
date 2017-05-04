@@ -88,7 +88,7 @@ func (form *Form) SetError(e bool) {
 
 func (form *Form) Has(key string) bool {
 	for _, e := range form.elements {
-		if e.GetName() == key {
+		if strings.Replace(e.GetName(), "[]", "", -1) == key {
 			return true
 		}
 	}
@@ -97,7 +97,7 @@ func (form *Form) Has(key string) bool {
 
 func (form *Form) Get(key string) (ElementInterface, error) {
 	for _, e := range form.elements {
-		if e.GetName() == key {
+		if strings.Replace(e.GetName(), "[]", "", -1) == key {
 			return e, nil
 		}
 	}
@@ -190,13 +190,13 @@ func (form *Form) MapTo(model interface{}) {
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 			value, err := strconv.Atoi(v)
 			if err != nil {
-				fmt.Printf("parsing error %v", v)
+				fmt.Printf("parsing error", v)
 			}
 			workField.SetInt(int64(value))
 		case reflect.Float32, reflect.Float64:
 			value, err := strconv.ParseFloat(v, 64)
 			if err != nil {
-				fmt.Printf("parsing error %v", v)
+				fmt.Printf("parsing error", v)
 			}
 			workField.SetFloat(value)
 		case reflect.String:
@@ -206,7 +206,7 @@ func (form *Form) MapTo(model interface{}) {
 		case reflect.Bool:
 			value, err := strconv.ParseBool(v)
 			if err != nil {
-				fmt.Printf("parsing error %v", v)
+				fmt.Printf("parsing error", v)
 			}
 			workField.SetBool(value)
 		case reflect.Struct:
@@ -216,7 +216,7 @@ func (form *Form) MapTo(model interface{}) {
 				t, err := time.Parse(layout, v)
 
 				if err != nil {
-					fmt.Errorf("parsing error %v", v)
+					fmt.Println("parsing error", v)
 				}
 				workField.Set(reflect.ValueOf(t))
 			default:
@@ -233,61 +233,61 @@ func (form *Form) MapTo(model interface{}) {
 				case "int64":
 					intV, err := strconv.Atoi(v)
 					if err != nil {
-						fmt.Errorf("an error occurred while str to int64 %v", vStructFirstKind)
+						fmt.Println("an error occurred while str to int64", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(int64(intV)))
 				case "int32":
 					intV, err := strconv.Atoi(v)
 					if err != nil {
-						fmt.Errorf("an error occurred while str to int32 %v", vStructFirstKind)
+						fmt.Println("an error occurred while str to int32", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(int32(intV)))
 				case "int16":
 					intV, err := strconv.Atoi(v)
 					if err != nil {
-						fmt.Errorf("an error occurred while str to int16 %v", vStructFirstKind)
+						fmt.Println("an error occurred while str to int16", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(int16(intV)))
 				case "int8":
 					intV, err := strconv.Atoi(v)
 					if err != nil {
-						fmt.Errorf("an error occurred while str to int8 %v", vStructFirstKind)
+						fmt.Println("an error occurred while str to int8", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(int8(intV)))
 				case "int":
 					intV, err := strconv.Atoi(v)
 					if err != nil {
-						fmt.Errorf("an error occurred while str to int %v", vStructFirstKind)
+						fmt.Println("an error occurred while str to int", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(intV))
 				case "float64":
 					floatV, err := strconv.ParseFloat(v, 64)
 					if err != nil {
-						fmt.Errorf("an error occurred while str to float64 %v", vStructFirstKind)
+						fmt.Println("an error occurred while str to float64", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(floatV))
 				case "float32":
 					floatV, err := strconv.ParseFloat(v, 32)
 					if err != nil {
-						fmt.Errorf("an error occurred while str to float32 %v", vStructFirstKind)
+						fmt.Println("an error occurred while str to float32", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(floatV))
 				case "bool":
 					boolV, err := strconv.ParseBool(v)
 					if err != nil {
-						fmt.Errorf("an error occurred while str to bool %v", vStructFirstKind)
+						fmt.Println("an error occurred while str to bool", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(boolV))
 				default:
-					fmt.Errorf("unknown interface field kind %v", vStructFirstKind)
+					fmt.Println("unknown interface field kind", vStructFirstKind)
 				}
 
 				workField.Set(vStruct)
@@ -303,41 +303,41 @@ func (form *Form) MapTo(model interface{}) {
 			case reflect.Int64:
 				value, err := strconv.Atoi(v)
 				if err != nil {
-					fmt.Printf("parsing error %v", v)
+					fmt.Printf("parsing error", v)
 				}
 				iVal := int64(value)
 				workField.Set(reflect.ValueOf(&iVal))
 			case reflect.Int32:
 				value, err := strconv.Atoi(v)
 				if err != nil {
-					fmt.Printf("parsing error %v", v)
+					fmt.Printf("parsing error", v)
 				}
 				iVal := int32(value)
 				workField.Set(reflect.ValueOf(&iVal))
 			case reflect.Int16:
 				value, err := strconv.Atoi(v)
 				if err != nil {
-					fmt.Printf("parsing error %v", v)
+					fmt.Printf("parsing error", v)
 				}
 				iVal := int16(value)
 				workField.Set(reflect.ValueOf(&iVal))
 			case reflect.Int8:
 				value, err := strconv.Atoi(v)
 				if err != nil {
-					fmt.Printf("parsing error %v", v)
+					fmt.Printf("parsing error", v)
 				}
 				iVal := int8(value)
 				workField.Set(reflect.ValueOf(&iVal))
 			case reflect.Int:
 				value, err := strconv.Atoi(v)
 				if err != nil {
-					fmt.Printf("parsing error %v", v)
+					fmt.Printf("parsing error", v)
 				}
 				workField.Set(reflect.ValueOf(&value))
 			case reflect.Float32, reflect.Float64:
 				value, err := strconv.ParseFloat(v, 64)
 				if err != nil {
-					fmt.Printf("parsing error %v", v)
+					fmt.Printf("parsing error", v)
 				}
 				workField.Set(reflect.ValueOf(&value))
 			case reflect.String:
@@ -350,7 +350,7 @@ func (form *Form) MapTo(model interface{}) {
 			case reflect.Bool:
 				value, err := strconv.ParseBool(v)
 				if err != nil {
-					fmt.Printf("parsing error %v", v)
+					fmt.Printf("parsing error", v)
 				}
 				workField.Set(reflect.ValueOf(&value))
 			case reflect.Struct:
@@ -360,7 +360,7 @@ func (form *Form) MapTo(model interface{}) {
 					t, err := time.Parse(layout, v)
 
 					if err != nil {
-						fmt.Errorf("parsing error %v", v)
+						fmt.Println("parsing error", v)
 					}
 					workField.Set(reflect.ValueOf(&t))
 				default:
@@ -383,61 +383,61 @@ func (form *Form) MapTo(model interface{}) {
 					case "int64":
 						intV, err := strconv.Atoi(v)
 						if err != nil {
-							fmt.Errorf("an error occurred while str to int64 %v", vStructFirstKind)
+							fmt.Println("an error occurred while str to int64", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(int64(intV)))
 					case "int32":
 						intV, err := strconv.Atoi(v)
 						if err != nil {
-							fmt.Errorf("an error occurred while str to int32 %v", vStructFirstKind)
+							fmt.Println("an error occurred while str to int32", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(int32(intV)))
 					case "int16":
 						intV, err := strconv.Atoi(v)
 						if err != nil {
-							fmt.Errorf("an error occurred while str to int16 %v", vStructFirstKind)
+							fmt.Println("an error occurred while str to int16", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(int16(intV)))
 					case "int8":
 						intV, err := strconv.Atoi(v)
 						if err != nil {
-							fmt.Errorf("an error occurred while str to int8 %v", vStructFirstKind)
+							fmt.Println("an error occurred while str to int8", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(int8(intV)))
 					case "int":
 						intV, err := strconv.Atoi(v)
 						if err != nil {
-							fmt.Errorf("an error occurred while str to int %v", vStructFirstKind)
+							fmt.Println("an error occurred while str to int", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(intV))
 					case "float64":
 						floatV, err := strconv.ParseFloat(v, 64)
 						if err != nil {
-							fmt.Errorf("an error occurred while str to float64 %v", vStructFirstKind)
+							fmt.Println("an error occurred while str to float64", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(floatV))
 					case "float32":
 						floatV, err := strconv.ParseFloat(v, 32)
 						if err != nil {
-							fmt.Errorf("an error occurred while str to float32 %v", vStructFirstKind)
+							fmt.Println("an error occurred while str to float32", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(floatV))
 					case "bool":
 						boolV, err := strconv.ParseBool(v)
 						if err != nil {
-							fmt.Errorf("an error occurred while str to bool %v", vStructFirstKind)
+							fmt.Println("an error occurred while str to bool", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(boolV))
 					default:
-						fmt.Errorf("unknown interface field kind %v", vStructFirstKind)
+						fmt.Println("unknown interface field kind", vStructFirstKind)
 					}
 
 					workField.Set(vStruct)
@@ -477,10 +477,12 @@ func (form *Form) BindFromPost(req *http.Request) {
 						}
 
 						if hdr.Filename != "" {
+							fileParts := strings.Split(hdr.Filename, ".")
 							field.SetFile(&File{
-								Headers: hdr.Header,
-								Name:    hdr.Filename,
-								Binary:  infile,
+								Headers:   hdr.Header,
+								Name:      hdr.Filename,
+								Extension: fileParts[len(fileParts)-1],
+								Binary:    infile,
 							})
 						}
 					}
@@ -520,10 +522,12 @@ func (form *Form) BindFromRequest(req *http.Request) {
 						}
 
 						if hdr.Filename != "" {
+							fileParts := strings.Split(hdr.Filename, ".")
 							field.SetFile(&File{
-								Headers: hdr.Header,
-								Name:    hdr.Filename,
-								Binary:  infile,
+								Headers:   hdr.Header,
+								Name:      hdr.Filename,
+								Extension: fileParts[len(fileParts)-1],
+								Binary:    infile,
 							})
 						}
 					}
@@ -558,7 +562,7 @@ func (form *Form) BindFromInterface(i interface{}) {
 		if form.Has(key) {
 			field, err := form.Get(key)
 			if err != nil {
-				fmt.Errorf("field not found %v", key)
+				fmt.Println("field not found", key)
 				continue
 			}
 
@@ -592,8 +596,10 @@ func (form *Form) BindFromInterface(i interface{}) {
 				field.SetValue(strconv.FormatFloat(float64(val.(float32)), 'f', -1, 32))
 			case "bool":
 				field.SetValue(strconv.FormatBool(val.(bool)))
+			case "struct":
+				field.SetValue(strconv.Itoa(int(vField.Field(0).Int())))
 			default:
-				fmt.Errorf("unknown interface field kind %v", vType)
+				fmt.Println("unknown interface field kind", vType)
 			}
 		}
 	}

@@ -10,14 +10,14 @@ type Theme string
 // https://v4-alpha.getbootstrap.com/components/forms/
 var ThemeBootstrap4alpha6Inline Theme = `
 {{define "text"}}
-<div class="form-group mr-2 {{if .GetErrors}}has-danger{{end}}">
+<div class="form-group mr-2 {{if .GetErrors}}has-danger has-feedback{{end}}">
     <label for="id_{{.Name}}" class="mr-2">{{.Label}}</label>
     <input name="{{.Name}}" type="{{.Type}}" value="{{.Value}}" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
            {{if not (.HasAttribute "class")}}class="form-control"{{end}}
     id="id_{{.Name}}" />
 
     {{if .GetErrors}}
-    <div class="form-control-feedback">
+    <div class="form-control-feedback d-block w-100">
         <ul>
             {{range .GetErrors}}
             <li>{{.}}</li>
@@ -51,7 +51,7 @@ var ThemeBootstrap4alpha6Inline Theme = `
     id="id_{{.Name}}">{{.Value}}</textarea>
 
     {{if .GetErrors}}
-    <div class="form-control-feedback">
+    <div class="form-control-feedback d-block w-100">
         <ul>
             {{range .GetErrors}}
             <li>{{.}}</li>
@@ -74,7 +74,7 @@ var ThemeBootstrap4alpha6Inline Theme = `
     </select>
 
     {{if .GetErrors}}
-    <div class="form-control-feedback">
+    <div class="form-control-feedback d-block w-100">
         <ul>
             {{range .GetErrors}}
             <li>{{.}}</li>
@@ -99,7 +99,7 @@ var ThemeBootstrap4alpha6Inline Theme = `
     {{end}}
 
     {{if .GetErrors}}
-    <div class="form-control-feedback">
+    <div class="form-control-feedback d-block w-100">
         <ul>
             {{range .GetErrors}}
             <li>{{.}}</li>
@@ -128,7 +128,7 @@ var ThemeBootstrap4alpha6Inline Theme = `
     {{end}}
 
     {{if .GetErrors}}
-    <div class="form-control-feedback">
+    <div class="form-control-feedback d-block w-100">
         <ul>
             {{range .GetErrors}}
             <li>{{.}}</li>
@@ -150,7 +150,7 @@ var ThemeBootstrap4alpha6Inline Theme = `
     </label>
 
     {{if .GetErrors}}
-    <div class="form-control-feedback">
+    <div class="form-control-feedback d-block w-100">
         <ul>
             {{range .GetErrors}}
             <li>{{.}}</li>
