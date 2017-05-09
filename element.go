@@ -92,6 +92,9 @@ func (file *File) ToString() string {
 }
 
 func (file *File) SaveTo(path string) error {
+	pathInfo := strings.Split(path, "/")
+	dir := strings.Join(pathInfo[:len(pathInfo)-1], "/")
+	os.MkdirAll(dir, 755)
 	f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0775)
 	if err != nil {
 		fmt.Println(err)

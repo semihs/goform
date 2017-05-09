@@ -219,6 +219,10 @@ func (form *Form) MapTo(model interface{}) {
 					fmt.Println("parsing error", v)
 				}
 				workField.Set(reflect.ValueOf(t))
+			case "goform.File":
+				if field.GetFile() != nil {
+					workField.Set(reflect.ValueOf(*field.GetFile()))
+				}
 			default:
 				vStruct := reflect.New(workField.Type())
 				if vStruct.Kind() == reflect.Ptr {
@@ -293,7 +297,7 @@ func (form *Form) MapTo(model interface{}) {
 				workField.Set(vStruct)
 			}
 		case reflect.Ptr:
-			if v == "" {
+			if v == "" && field.GetFile() == nil {
 				continue
 			}
 
@@ -363,6 +367,8 @@ func (form *Form) MapTo(model interface{}) {
 						fmt.Println("parsing error", v)
 					}
 					workField.Set(reflect.ValueOf(&t))
+				case "*goform.File":
+					workField.Set(reflect.ValueOf(field.GetFile()))
 				default:
 					vStruct := reflect.New(workField.Type())
 					if vStruct.Kind() == reflect.Ptr {

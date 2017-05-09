@@ -36,7 +36,7 @@ type RequiredValidator struct {
 }
 
 func (validator *RequiredValidator) IsValid() bool {
-	if validator.Value != "" || len(validator.Values) > 0 {
+	if validator.Value != "" || len(validator.Values) > 0 || validator.File != nil {
 		return true
 	}
 	validator.Messages = append(validator.Messages, "This field is required")
