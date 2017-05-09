@@ -460,6 +460,7 @@ var ThemeBootstrap4alpha6 Theme = `
 {{define "radio"}}
 <div class="form-group{{if .GetErrors}} has-danger{{end}}">
     <label>{{.Label}}</label>
+    <div class="custom-controls-stacked">
 	{{range .ValueOptions}}
 	  <label class="custom-control custom-radio">
 	    <input type="radio" name="{{$.Name}}" value="{{.Value}}" id="{{$.Name}}" class="custom-control-input"
@@ -469,7 +470,7 @@ var ThemeBootstrap4alpha6 Theme = `
 	    <span class="custom-control-description">{{.Label}}</span>
 	  </label>
 	{{end}}
-
+    </div>
 	    {{if .GetErrors}}
 	    <div class="form-control-feedback">
 	    <ul>
@@ -485,8 +486,9 @@ var ThemeBootstrap4alpha6 Theme = `
 {{define "multicheckbox"}}
 <div class="form-group{{if .GetErrors}} has-danger{{end}}">
     <label>{{.Label}}</label>
+    <div class="custom-controls-stacked">
     {{range .ValueOptions}}
-    <label class="custom-control custom-checkbox ml-1">
+    <label class="custom-control custom-checkbox">
       <input type="checkbox" class="custom-control-input" name="{{$.Name}}[]" value="{{.Value}}" id="{{$.Name}}" class="custom-control-input"
       {{if $.IsCheckedInValues .Value}}
       checked
@@ -498,6 +500,7 @@ var ThemeBootstrap4alpha6 Theme = `
       <span class="custom-control-description">{{.Label}}</span>
     </label>
     {{end}}
+    </div>
 
     {{if .GetErrors}}
     <div class="form-control-feedback">
