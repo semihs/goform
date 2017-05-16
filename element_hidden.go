@@ -4,11 +4,10 @@ type HiddenElement struct {
 	Element
 }
 
-func NewHiddenElement(name string, label string, attributes []*Attribute, validators []ValidatorInterface) *HiddenElement {
+func NewHiddenElement(name string, attributes []*Attribute, validators []ValidatorInterface) *HiddenElement {
 	element := new(HiddenElement)
 	element.Type = ElementTypeHidden
 	element.Name = name
-	element.Label = label
 	element.Attributes = attributes
 	element.Validators = validators
 

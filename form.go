@@ -603,6 +603,15 @@ func (form *Form) BindFromInterface(i interface{}) {
 			case "bool":
 				field.SetValue(strconv.FormatBool(val.(bool)))
 			case "struct":
+				vT := reflect.ValueOf(val).Type().String()
+				if vT == "time.Time" {
+					if tVal, ok := vField.Interface().(time.Time); ok {
+						field.SetValue(tVal.Format("2006-01-02"))
+						continue
+					}
+					fmt.Println("Time field could not type casting", vField.Interface())
+					continue
+				}
 				field.SetValue(strconv.Itoa(int(vField.Field(0).Int())))
 			default:
 				fmt.Println("unknown interface field kind", vType)
