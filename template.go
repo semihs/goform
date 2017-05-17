@@ -36,8 +36,8 @@ var ThemeBootstrap4alpha6Inline Theme = `
     {{if .GetFile}}
     <a href="{{.GetFile.Location}}" target="_blank">{{.GetFile.Name}}</a>
     {{if ne .GetDeletionUrl ""}}
-    <a class="text-danger" href="{{.GetDeletionUrl}}">
-    <i class="fa fa-times btn-confirm-delete"></i>
+    <a class="text-danger btn-confirm-delete" href="{{.GetDeletionUrl}}">
+    <i class="fa fa-times"></i>
     </a>
     {{end}}
     {{end}}
@@ -221,8 +221,8 @@ var ThemeBootstrap4alpha6Textual Theme = `
     {{if .GetFile}}
     <a href="{{.GetFile.Location}}" target="_blank">{{.GetFile.Name}}</a>
     {{if ne .GetDeletionUrl ""}}
-    <a class="text-danger" href="{{.GetDeletionUrl}}">
-    <i class="fa fa-times btn-confirm-delete"></i>
+    <a class="text-danger btn-confirm-delete" href="{{.GetDeletionUrl}}">
+    <i class="fa fa-times"></i>
     </a>
     {{end}}
     {{end}}
@@ -423,8 +423,8 @@ var ThemeBootstrap4alpha6 Theme = `
     {{if .GetFile}}
     <a href="{{.GetFile.Location}}" target="_blank">{{.GetFile.Name}}</a>
     {{if ne .GetDeletionUrl ""}}
-    <a class="text-danger" href="{{.GetDeletionUrl}}">
-    <i class="fa fa-times btn-confirm-delete"></i>
+    <a class="text-danger btn-confirm-delete" href="{{.GetDeletionUrl}}">
+    <i class="fa fa-times"></i>
     </a>
     {{end}}
     {{end}}
