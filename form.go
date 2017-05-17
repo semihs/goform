@@ -592,11 +592,13 @@ func (form *Form) BindFromInterface(i interface{}) {
 					continue
 				}
 				if field.GetType() == ElementTypeFile {
-					_, fileName := filepath.Split(val.(string))
-					field.SetFile(&File{
-						Location: val.(string),
-						Name:     fileName,
-					})
+					if val.(string) != "" {
+						_, fileName := filepath.Split(val.(string))
+						field.SetFile(&File{
+							Location: val.(string),
+							Name:     fileName,
+						})
+					}
 					continue
 				}
 				if strVal, ok := val.(string); ok {
