@@ -137,12 +137,22 @@ func (form *Form) IsValid() bool {
 	for _, e := range form.elements {
 		if !e.IsValid() && !form.hasError {
 			form.hasError = true
+			break
 		}
 	}
 	if form.hasError {
 		return false
 	}
+	for _, e := range form.elements {
+		e.ApplyFilters()
+	}
 	return true
+}
+
+func (form *Form) ApplyFilters() {
+	for _, e := range form.elements {
+		e.ApplyFilters()
+	}
 }
 
 func (form *Form) Render() string {

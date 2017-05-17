@@ -4,7 +4,7 @@ type RadioElement struct {
 	Element
 }
 
-func NewRadioElement(name string, label string, attributes []*Attribute, valueOptions []*ValueOption, validators []ValidatorInterface) *RadioElement {
+func NewRadioElement(name string, label string, attributes []*Attribute, valueOptions []*ValueOption, validators []ValidatorInterface, filters []FilterInterface) *RadioElement {
 	element := new(RadioElement)
 	element.Type = ElementTypeRadio
 	element.Name = name
@@ -12,6 +12,7 @@ func NewRadioElement(name string, label string, attributes []*Attribute, valueOp
 	element.Attributes = attributes
 	element.ValueOptions = valueOptions
 	element.Validators = validators
+	element.Filters = filters
 
 	return element
 }

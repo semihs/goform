@@ -64,6 +64,10 @@ type ElementInterface interface {
 	AddValidator(validator ValidatorInterface)
 	GetValidators() []ValidatorInterface
 	ClearValidators()
+
+	GetFilters() []FilterInterface
+	ApplyFilters()
+
 	GetErrors() []string
 	AddError(string)
 
@@ -76,6 +80,7 @@ type File struct {
 	Headers   map[string][]string
 	Name      string
 	Extension string
+	Location  string
 	Binary    multipart.File
 }
 
@@ -96,6 +101,22 @@ func (file *File) SaveTo(path string) error {
 	dir := strings.Join(pathInfo[:len(pathInfo)-1], "/")
 	os.MkdirAll(dir, 0775)
 	f, err := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0775)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	defer f.Close()
+	io.Copy(f, file.Binary)
+
+	return nil
+}
+
+func (file *File) Save() error {
+	file.Binary.Seek(0, 0)
+	pathInfo := strings.Split(file.Location, "/")
+	dir := strings.Join(pathInfo[:len(pathInfo)-1], "/")
+	os.MkdirAll(dir, 0775)
+	f, err := os.OpenFile(file.Location+"."+file.Extension, os.O_WRONLY|os.O_CREATE, 0775)
 	if err != nil {
 		fmt.Println(err)
 		return err
@@ -127,6 +148,7 @@ type Element struct {
 	Values       []string
 	ValueOptions []*ValueOption
 	Validators   []ValidatorInterface
+	Filters      []FilterInterface
 	Errors       []string
 	File         *File
 	theme        Theme
@@ -153,12 +175,18 @@ func (element *Element) SetValue(s string) {
 	for _, v := range element.Validators {
 		v.SetValue(s)
 	}
+	for _, f := range element.Filters {
+		f.SetValue(s)
+	}
 }
 
 func (element *Element) SetValues(s []string) {
 	element.Values = s
 	for _, v := range element.Validators {
 		v.SetValues(s)
+	}
+	for _, f := range element.Filters {
+		f.SetValues(s)
 	}
 }
 
@@ -174,6 +202,9 @@ func (element *Element) SetFile(f *File) {
 	element.File = f
 	for _, v := range element.Validators {
 		v.SetFile(f)
+	}
+	for _, fi := range element.Filters {
+		fi.SetFile(f)
 	}
 }
 
@@ -207,6 +238,16 @@ func (element *Element) IsValid() bool {
 		return false
 	}
 	return true
+}
+
+func (element *Element) ApplyFilters() {
+	for _, f := range element.Filters {
+		f.Apply()
+	}
+}
+
+func (element *Element) GetFilters() []FilterInterface {
+	return element.Filters
 }
 
 func (element *Element) IsCheckedInValues(s string) bool {

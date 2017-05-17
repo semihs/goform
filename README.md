@@ -42,8 +42,8 @@ var view string = `
 func main() {
 	email := goform.NewEmailElement("email", "Email", []*goform.Attribute{}, []goform.ValidatorInterface{
 		&goform.RequiredValidator{},
-	})
-	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{})
+	}, []goform.FilterInterface{})
+	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 	submit := goform.NewButtonElement("submit", "Login", []*goform.Attribute{})
 
 	form := goform.NewGoForm()
@@ -91,8 +91,8 @@ var view string = `
 func main() {
 	email := goform.NewEmailElement("email", "Email", []*goform.Attribute{}, []goform.ValidatorInterface{
 		&goform.RequiredValidator{},
-	})
-	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{})
+	}, []goform.FilterInterface{})
+	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 	submit := goform.NewButtonElement("submit", "Login", []*goform.Attribute{})
 
 	form := goform.NewGoForm()
@@ -144,8 +144,8 @@ type YourInterface struct {
 func main() {
 	email := goform.NewEmailElement("email", "Email", []*goform.Attribute{}, []goform.ValidatorInterface{
 		&goform.RequiredValidator{},
-	})
-	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{})
+	}, []goform.FilterInterface{})
+	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 	submit := goform.NewButtonElement("submit", "Login", []*goform.Attribute{})
 
 	form := goform.NewGoForm()
@@ -199,8 +199,8 @@ type YourStruct struct {
 func main() {
 	email := goform.NewEmailElement("email", "Email", []*goform.Attribute{}, []goform.ValidatorInterface{
 		&goform.RequiredValidator{},
-	})
-	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{})
+	}, []goform.FilterInterface{})
+	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 	submit := goform.NewButtonElement("submit", "Login", []*goform.Attribute{})
 
 	form := goform.NewGoForm()
@@ -249,8 +249,8 @@ var view string = `
 func main() {
 	email := goform.NewEmailElement("email", "Email", []*goform.Attribute{}, []goform.ValidatorInterface{
 		&goform.RequiredValidator{},
-	})
-	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{})
+	}, []goform.FilterInterface{})
+	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 	submit := goform.NewButtonElement("submit", "Login", []*goform.Attribute{})
 
 	form := goform.NewGoForm()
@@ -301,8 +301,8 @@ var view string = `
 func main() {
 	email := goform.NewEmailElement("email", "Email", []*goform.Attribute{}, []goform.ValidatorInterface{
 		&goform.RequiredValidator{},
-	})
-	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{})
+	}, []goform.FilterInterface{})
+	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 	submit := goform.NewButtonElement("submit", "Login", []*goform.Attribute{})
 
 	form := goform.NewGoForm()
@@ -346,8 +346,8 @@ var view string = `
 func main() {
 	email := goform.NewEmailElement("email", "Email", []*goform.Attribute{}, []goform.ValidatorInterface{
 		&goform.RequiredValidator{},
-	})
-	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{})
+	}, []goform.FilterInterface{})
+	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 	submit := goform.NewButtonElement("submit", "Login", []*goform.Attribute{})
 
 	form := goform.NewGoForm()
@@ -375,66 +375,66 @@ func main() {
 
 #### Text Element
 ```go
-goform.NewTextElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
+goform.NewTextElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 ```
 #### Textarea Element
 ```go
-goform.NewTextareaElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
+goform.NewTextareaElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 ```
 #### Email Element
 ```go
-goform.NewEmailElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
+goform.NewEmailElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 ```
 #### Checkbox Element
 ```go
-goform.NewCheckboxElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
+goform.NewCheckboxElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 ```
 #### Select Element
 ```go
 goform.NewSelectElement("element_name", "Element Label", []*goform.Attribute{}, []*goform.ValueOption{
     &goform.ValueOption{Value: "1", Label: "Option 1"},
     &goform.ValueOption{Value: "2", Label: "Option 2"},
-}, []goform.ValidatorInterface{})
+}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 ```
 #### Radio Element
 ```go
 goform.NewRadioElement("element_name", "Element Label", []*goform.Attribute{}, []*goform.ValueOption{
     &goform.ValueOption{Value: "1", Label: "Option 1"},
     &goform.ValueOption{Value: "2", Label: "Option 2"},
-}, []goform.ValidatorInterface{})
+}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 ```
 #### Multicheckbox Element
 ```go
 goform.NewMultiCheckboxElement("element_name", "Element Label", []*goform.Attribute{}, []*goform.ValueOption{
     &goform.ValueOption{Value: "1", Label: "Option 1"},
     &goform.ValueOption{Value: "2", Label: "Option 2"},
-}, []goform.ValidatorInterface{})
+}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 ```
 #### Number Element
 ```go
-goform.NewNumberElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
+goform.NewNumberElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 ```
 #### Search Element
 ```go
-goform.NewSearchElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
+goform.NewSearchElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 ```
 #### Tel Element
 ```go
-goform.NewTelElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
+goform.NewTelElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 ```
 #### Hidden Element
 ```go
-goform.NewHiddenElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
+goform.NewHiddenElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 ```
 #### Password Element
 ```go
-goform.NewPasswordElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{})
+goform.NewPasswordElement("element_name", "Element Label", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 ```
 #### Image Element
 ```go
 goform.NewImageElement("element_name", "Element Label", []*goform.Attribute{
         &goform.Attribute{Key:"src", Value: "/img/src/image.png"}
-}, []goform.ValidatorInterface{})
+}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
 ```
 #### Button Element
 ```go

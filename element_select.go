@@ -4,7 +4,7 @@ type SelectElement struct {
 	Element
 }
 
-func NewSelectElement(name string, label string, attributes []*Attribute, valueOptions []*ValueOption, validators []ValidatorInterface) *SelectElement {
+func NewSelectElement(name string, label string, attributes []*Attribute, valueOptions []*ValueOption, validators []ValidatorInterface, filters []FilterInterface) *SelectElement {
 	element := new(SelectElement)
 	element.Type = ElementTypeSelect
 	element.Name = name
@@ -12,6 +12,7 @@ func NewSelectElement(name string, label string, attributes []*Attribute, valueO
 	element.Attributes = attributes
 	element.ValueOptions = valueOptions
 	element.Validators = validators
+	element.Filters = filters
 
 	return element
 }
