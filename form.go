@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"mime/multipart"
 	"net/http"
+	"path/filepath"
 	"reflect"
 	"regexp"
 	"strconv"
@@ -588,13 +589,21 @@ func (form *Form) BindFromInterface(i interface{}) {
 			case "string":
 				if field.GetType() == ElementTypeMultiCheckbox {
 					field.SetValues(strings.Fields(val.(string)))
-				} else {
-					if strVal, ok := val.(string); ok {
-						field.SetValue(strVal)
-					}
-					if _, ok := val.(string); !ok {
-						field.SetValue(fmt.Sprintf("%s", val))
-					}
+					continue
+				}
+				if field.GetType() == ElementTypeFile {
+					_, fileName := filepath.Split(val.(string))
+					field.SetFile(&File{
+						Location: val.(string),
+						Name:     fileName,
+					})
+					continue
+				}
+				if strVal, ok := val.(string); ok {
+					field.SetValue(strVal)
+				}
+				if _, ok := val.(string); !ok {
+					field.SetValue(fmt.Sprintf("%s", val))
 				}
 			case "int64":
 				field.SetValue(strconv.Itoa(int(val.(int64))))

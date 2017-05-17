@@ -4,7 +4,7 @@ type FileElement struct {
 	Element
 }
 
-func NewFileElement(name string, label string, attributes []*Attribute, validators []ValidatorInterface, filters []FilterInterface) *FileElement {
+func NewFileElement(name string, label string, attributes []*Attribute, validators []ValidatorInterface, filters []FilterInterface, deletionUrl string) *FileElement {
 	element := new(FileElement)
 	element.Type = ElementTypeFile
 	element.Name = name
@@ -12,6 +12,7 @@ func NewFileElement(name string, label string, attributes []*Attribute, validato
 	element.Attributes = attributes
 	element.Validators = validators
 	element.Filters = filters
+	element.deletionUrl = deletionUrl
 
 	return element
 }

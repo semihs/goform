@@ -32,6 +32,15 @@ var ThemeBootstrap4alpha6Inline Theme = `
 <div class="form-group mr-2 {{if .GetErrors}}has-danger{{end}}">
     <label for="id_{{.Name}}" class="mr-2">{{.Label}}</label>
     <label class="custom-file">
+
+    {{if .GetFile}}
+    <a href="{{.GetFile.Location}}" target="_blank">{{.GetFile.Name}}</a>
+    {{if ne .GetDeletionUrl ""}}
+    <a class="text-danger" href="{{.GetDeletionUrl}}">
+    <i class="fa fa-times btn-confirm-delete"></i>
+    </a>
+    {{end}}
+    {{end}}
         <input id="id_{{.Name}}" name="{{.Name}}" type="{{.Type}}" value="{{.Value}}" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
                {{if not (.HasAttribute "class")}}class="custom-file-input"{{end}}>
         <span class="custom-file-control"></span>
@@ -209,6 +218,14 @@ var ThemeBootstrap4alpha6Textual Theme = `
 <div class="form-group row {{if .GetErrors}}has-danger{{end}}">
     <label for="id_{{.Name}}" class="col-xl-2 col-lg-3 col-md-12 col-form-label">{{.Label}}</label>
     <div class="col-xl-10 col-lg-9 col-md-12">
+    {{if .GetFile}}
+    <a href="{{.GetFile.Location}}" target="_blank">{{.GetFile.Name}}</a>
+    {{if ne .GetDeletionUrl ""}}
+    <a class="text-danger" href="{{.GetDeletionUrl}}">
+    <i class="fa fa-times btn-confirm-delete"></i>
+    </a>
+    {{end}}
+    {{end}}
     <label class="custom-file w-100">
   	<input id="id_{{.Name}}" name="{{.Name}}" type="{{.Type}}" value="{{.Value}}" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
   	{{if not (.HasAttribute "class")}}class="custom-file-input"{{end}}>
@@ -402,6 +419,15 @@ var ThemeBootstrap4alpha6 Theme = `
 <div class="form-group{{if .GetErrors}} has-danger{{end}}">
     <label for="id_{{.Name}}">{{.Label}}</label>
     <label class="custom-file w-100">
+
+    {{if .GetFile}}
+    <a href="{{.GetFile.Location}}" target="_blank">{{.GetFile.Name}}</a>
+    {{if ne .GetDeletionUrl ""}}
+    <a class="text-danger" href="{{.GetDeletionUrl}}">
+    <i class="fa fa-times btn-confirm-delete"></i>
+    </a>
+    {{end}}
+    {{end}}
   	<input id="id_{{.Name}}" name="{{.Name}}" type="{{.Type}}" value="{{.Value}}" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
   	{{if not (.HasAttribute "class")}}class="custom-file-input"{{end}}>
         <span class="custom-file-control"></span>

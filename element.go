@@ -54,6 +54,9 @@ type ElementInterface interface {
 	SetFile(file *File)
 	GetFile() *File
 
+	GetDeletionUrl() string
+	SetDeletionUrl(string)
+
 	AddValueOption(valueOption *ValueOption)
 
 	IsChecked() bool
@@ -151,6 +154,7 @@ type Element struct {
 	Filters      []FilterInterface
 	Errors       []string
 	File         *File
+	deletionUrl  string
 	theme        Theme
 }
 
@@ -216,6 +220,14 @@ func (element *Element) BinaryToString() string {
 	var s string
 
 	return s
+}
+
+func (element *Element) GetDeletionUrl() string {
+	return element.deletionUrl
+}
+
+func (element *Element) SetDeletionUrl(n string) {
+	element.deletionUrl = n
 }
 
 func (element *Element) AddValueOption(valueOption *ValueOption) {
