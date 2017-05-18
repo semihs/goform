@@ -135,10 +135,16 @@ func (form *Form) Remove(key string) error {
 }
 
 func (form *Form) IsValid() bool {
-	for _, e := range form.elements {
+	for _, e := range form.GetElements() {
+		for _, v := range e.GetValidators() {
+			if v, ok := v.(*IdenticalValidator); ok {
+				if form.Has(v.ElementName) {
+					v.element, _ = form.Get(v.ElementName)
+				}
+			}
+		}
 		if !e.IsValid() && !form.hasError {
 			form.hasError = true
-			break
 		}
 	}
 	if form.hasError {
