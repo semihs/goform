@@ -223,7 +223,7 @@ func (form *Form) MapTo(model interface{}) {
 		case reflect.Bool:
 			value, err := strconv.ParseBool(v)
 			if err != nil {
-				fmt.Printf("parsing error", v)
+				fmt.Println("parsing error", field.GetLabel(), v)
 			}
 			workField.SetBool(value)
 		case reflect.Struct:
