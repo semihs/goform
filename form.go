@@ -28,6 +28,7 @@ type FormInterface interface {
 	Prepend(...ElementInterface)
 	GetTheme() Theme
 	SetTheme(theme Theme)
+	SetTemplateFunctions(templateFunctions map[string]interface{})
 	HasError() bool
 	SetError(bool)
 	BuildQuery() string
@@ -41,9 +42,10 @@ type FormInterface interface {
 }
 
 type Form struct {
-	elements []ElementInterface
-	hasError bool
-	theme    Theme
+	elements          []ElementInterface
+	hasError          bool
+	theme             Theme
+	templateFunctions map[string]interface{}
 }
 
 func NewGoForm() *Form {
@@ -79,6 +81,10 @@ func (form *Form) SetTheme(theme Theme) {
 	form.theme = theme
 }
 
+func (form *Form) SetTemplateFunctions(templateFunctions map[string]interface{}) {
+	form.templateFunctions = templateFunctions
+}
+
 func (form *Form) HasError() bool {
 	return form.hasError
 }
@@ -107,6 +113,7 @@ func (form *Form) Get(key string) (ElementInterface, error) {
 
 func (form *Form) Add(element ElementInterface) {
 	element.setTheme(form.theme)
+	element.setTemplateFunctions(form.templateFunctions)
 	form.elements = append(form.elements, element)
 }
 

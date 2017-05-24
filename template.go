@@ -581,9 +581,9 @@ var ThemeBootstrap4alpha6 Theme = `
 {{end}}
 `
 
-func NewTemplate(theme Theme) *template.Template {
+func NewTemplate(theme Theme, funcMap template.FuncMap) *template.Template {
 	var err error
-	t, err := template.New("goform").Parse(string(theme))
+	t, err := template.New("goform").Funcs(funcMap).Parse(string(theme))
 	if err != nil {
 		panic(err)
 	}
@@ -591,7 +591,8 @@ func NewTemplate(theme Theme) *template.Template {
 }
 
 func renderTemplate(typ ElementType, element ElementInterface) string {
-	t := NewTemplate(element.GetTheme())
+	funcMap := template.FuncMap(element.getTemplateFunctions())
+	t := NewTemplate(element.GetTheme(), funcMap)
 	var buffer bytes.Buffer
 	err := t.ExecuteTemplate(&buffer, string(typ), element)
 	if err != nil {
