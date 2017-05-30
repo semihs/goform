@@ -78,6 +78,9 @@ func (form *Form) GetTheme() Theme {
 }
 
 func (form *Form) SetTheme(theme Theme) {
+	for _, e := range form.GetElements() {
+		e.setTheme(theme)
+	}
 	form.theme = theme
 }
 
