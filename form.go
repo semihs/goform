@@ -19,6 +19,8 @@ var (
 )
 
 type FormInterface interface {
+	GetAction() string
+	SetAction(theme string)
 	Has(key string) bool
 	Get(key string) (ElementInterface, error)
 	Add(element ElementInterface)
@@ -42,6 +44,7 @@ type FormInterface interface {
 }
 
 type Form struct {
+	action            string
 	elements          []ElementInterface
 	hasError          bool
 	theme             Theme
@@ -52,6 +55,14 @@ func NewGoForm() *Form {
 	return &Form{
 		theme: ThemeBootstrap4alpha6Textual,
 	}
+}
+
+func (form *Form) GetAction() string {
+	return form.action
+}
+
+func (form *Form) SetAction(action string) {
+	form.action = action
 }
 
 func (form *Form) GetElements() []ElementInterface {
