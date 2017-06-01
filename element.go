@@ -76,9 +76,9 @@ type ElementInterface interface {
 
 	Render() string
 	GetTheme() Theme
-	setTheme(Theme)
-	getTemplateFunctions() map[string]interface{}
-	setTemplateFunctions(map[string]interface{})
+	SetTheme(Theme)
+	GetTemplateFunctions() map[string]interface{}
+	SetTemplateFunctions(map[string]interface{})
 }
 
 type File struct {
@@ -330,14 +330,14 @@ func (element *Element) GetTheme() Theme {
 	return element.theme
 }
 
-func (element *Element) setTheme(theme Theme) {
+func (element *Element) SetTheme(theme Theme) {
 	element.theme = theme
 }
 
-func (element *Element) setTemplateFunctions(templateFunctions map[string]interface{}) {
+func (element *Element) SetTemplateFunctions(templateFunctions map[string]interface{}) {
 	element.templateFunctions = templateFunctions
 }
 
-func (element *Element) getTemplateFunctions() map[string]interface{} {
+func (element *Element) GetTemplateFunctions() map[string]interface{} {
 	return element.templateFunctions
 }

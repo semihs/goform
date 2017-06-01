@@ -71,7 +71,7 @@ func (form *Form) GetElements() []ElementInterface {
 
 func (form *Form) SetElements(elements []ElementInterface) {
 	for _, e := range elements {
-		e.setTheme(form.theme)
+		e.SetTheme(form.theme)
 	}
 	form.elements = elements
 }
@@ -90,7 +90,7 @@ func (form *Form) GetTheme() Theme {
 
 func (form *Form) SetTheme(theme Theme) {
 	for _, e := range form.GetElements() {
-		e.setTheme(theme)
+		e.SetTheme(theme)
 	}
 	form.theme = theme
 }
@@ -126,8 +126,8 @@ func (form *Form) Get(key string) (ElementInterface, error) {
 }
 
 func (form *Form) Add(element ElementInterface) {
-	element.setTheme(form.theme)
-	element.setTemplateFunctions(form.templateFunctions)
+	element.SetTheme(form.theme)
+	element.SetTemplateFunctions(form.templateFunctions)
 	form.elements = append(form.elements, element)
 }
 

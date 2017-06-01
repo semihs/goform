@@ -591,7 +591,7 @@ func NewTemplate(theme Theme, funcMap template.FuncMap) *template.Template {
 }
 
 func renderTemplate(typ ElementType, element ElementInterface) string {
-	funcMap := template.FuncMap(element.getTemplateFunctions())
+	funcMap := template.FuncMap(element.GetTemplateFunctions())
 	t := NewTemplate(element.GetTheme(), funcMap)
 	var buffer bytes.Buffer
 	err := t.ExecuteTemplate(&buffer, string(typ), element)
