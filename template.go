@@ -96,7 +96,7 @@ var ThemeBootstrap4alpha6Inline Theme = `
 
 {{define "radio"}}
 <div class="form-group mr-2 {{if .GetErrors}}has-danger{{end}}">
-    <label class="mr-2">{{.Label}}</label>
+    <label class="mr-2 d-block">{{.Label}}</label>
     {{range .ValueOptions}}
     <label class="custom-control custom-radio">
         <input type="radio" name="{{$.Name}}" value="{{.Value}}" id="{{$.Name}}" class="custom-control-input"
@@ -121,7 +121,7 @@ var ThemeBootstrap4alpha6Inline Theme = `
 
 {{define "multicheckbox"}}
 <div class="form-group mr-2 {{if .GetErrors}}has-danger{{end}}">
-    <label class="mr-2">{{.Label}}</label>
+    <label class="mr-2 d-block">{{.Label}}</label>
     {{range .ValueOptions}}
     <label class="custom-control custom-checkbox">
         <input type="checkbox" class="custom-control-input" name="{{$.Name}}[]" value="{{.Value}}" id="{{$.Name}}" class="custom-control-input"
