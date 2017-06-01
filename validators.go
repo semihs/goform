@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/semihs/goform/validators"
 	"strconv"
+	"time"
 )
 
 type ValidatorInterface interface {
@@ -80,6 +81,42 @@ func (validator *MaxValueValidator) IsValid() bool {
 	}
 	if value > validator.Max {
 		validator.Messages = append(validator.Messages, fmt.Sprintf("Value must be lower than %d", int(validator.Max)))
+		return false
+	}
+	return true
+}
+
+type MinDateValidator struct {
+	Min time.Time
+	Validator
+}
+
+func (validator *MinDateValidator) IsValid() bool {
+	value, err := time.Parse("2006-01-02", validator.Value)
+	if err != nil {
+		validator.Messages = append(validator.Messages, fmt.Sprintf("Value must be greater than %s", validator.Min.Format("2006-01-02")))
+		return false
+	}
+	if value.Before(validator.Min) {
+		validator.Messages = append(validator.Messages, fmt.Sprintf("Value must be greater than %s", validator.Min.Format("2006-01-02")))
+		return false
+	}
+	return true
+}
+
+type MaxDateValidator struct {
+	Max time.Time
+	Validator
+}
+
+func (validator *MaxDateValidator) IsValid() bool {
+	value, err := time.Parse("2006-01-02", validator.Value)
+	if err != nil {
+		validator.Messages = append(validator.Messages, fmt.Sprintf("Value must be lower than %s", validator.Max.Format("2006-01-02")))
+		return false
+	}
+	if value.After(validator.Max) {
+		validator.Messages = append(validator.Messages, fmt.Sprintf("Value must be lower than %s", validator.Max.Format("2006-01-02")))
 		return false
 	}
 	return true
