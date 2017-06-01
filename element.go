@@ -41,7 +41,7 @@ type ElementInterface interface {
 	AddAttribute(attribute *Attribute)
 	HasAttribute(key string) bool
 	GetAttribute(key string) (*Attribute, error)
-	SetAttribute(key string, attribute *Attribute) error
+	SetAttribute(key string, value string)
 
 	GetType() ElementType
 	GetName() string
@@ -296,13 +296,14 @@ func (element *Element) GetAttribute(key string) (*Attribute, error) {
 	return nil, ErrAttributeNotFound
 }
 
-func (element *Element) SetAttribute(key string, attribute *Attribute) error {
-	for idx, attr := range element.Attributes {
-		if key == attr.Key {
-			element.Attributes[idx] = attribute
+func (element *Element) SetAttribute(key string, value string) {
+	for idx, attribute := range element.Attributes {
+		if attribute.Key == key {
+			element.Attributes[idx] = &Attribute{Key: key, Value: value}
+			return
 		}
 	}
-	return ErrAttributeNotFound
+	element.AddAttribute(&Attribute{Key: key, Value: value})
 }
 
 func (element *Element) AddValidator(validator ValidatorInterface) {
