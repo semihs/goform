@@ -307,6 +307,9 @@ func (element *Element) SetAttribute(key string, value string) {
 }
 
 func (element *Element) AddValidator(validator ValidatorInterface) {
+	validator.SetValue(element.GetValue())
+	validator.SetValues(element.GetValues())
+	validator.SetFile(element.GetFile())
 	element.Validators = append(element.Validators, validator)
 }
 
