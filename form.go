@@ -96,6 +96,9 @@ func (form *Form) SetTheme(theme Theme) {
 }
 
 func (form *Form) SetTemplateFunctions(templateFunctions map[string]interface{}) {
+	for _, e := range form.GetElements() {
+		e.SetTemplateFunctions(templateFunctions)
+	}
 	form.templateFunctions = templateFunctions
 }
 

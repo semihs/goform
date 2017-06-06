@@ -71,8 +71,8 @@ type ElementInterface interface {
 	GetFilters() []FilterInterface
 	ApplyFilters()
 
-	GetErrors() []string
-	AddError(string)
+	GetErrors() []Message
+	AddError(string, []interface{})
 
 	Render() string
 	GetTheme() Theme
@@ -154,7 +154,7 @@ type Element struct {
 	ValueOptions      []*ValueOption
 	Validators        []ValidatorInterface
 	Filters           []FilterInterface
-	Errors            []string
+	Errors            []Message
 	File              *File
 	deletionUrl       string
 	theme             Theme
@@ -242,7 +242,7 @@ func (element *Element) IsChecked() bool {
 }
 
 func (element *Element) IsValid() bool {
-	var errs []string
+	var errs []Message
 	for _, v := range element.Validators {
 		if !v.IsValid() {
 			errs = append(errs, v.GetMessages()...)
@@ -321,12 +321,12 @@ func (element *Element) ClearValidators() {
 	element.Validators = []ValidatorInterface{}
 }
 
-func (element *Element) GetErrors() []string {
+func (element *Element) GetErrors() []Message {
 	return element.Errors
 }
 
-func (element *Element) AddError(s string) {
-	element.Errors = append(element.Errors, s)
+func (element *Element) AddError(s string, args []interface{}) {
+	element.Errors = append(element.Errors, Message{Message: s, Args: args})
 }
 
 func (element *Element) GetTheme() Theme {

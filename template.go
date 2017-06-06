@@ -20,7 +20,7 @@ var ThemeBootstrap4alpha6Inline Theme = `
     <div class="form-control-feedback d-block w-100">
         <ul>
             {{range .GetErrors}}
-            <li>{{.}}</li>
+            <li>{{.Message}}</li>
             {{end}}
         </ul>
     </div>
