@@ -295,7 +295,7 @@ var ThemeBootstrap4alpha6Textual Theme = `
 	  <label class="custom-control custom-radio">
 	    <input type="radio" name="{{$.Name}}" value="{{.Value}}" id="{{$.Name}}" class="custom-control-input"
 		     {{if eq $.Value .Value}} checked {{else}} {{if .Selected}} checked {{end}} {{end}}
-		     {{if .Disabled}} disabled{{end}} />
+		     {{if .Disabled}} disabled{{end}}{{range $.Attributes}} {{.Key}}="{{.Value}}"{{end}} />
 	    <span class="custom-control-indicator"></span>
 	    <span class="custom-control-description">{{.Label}}</span>
 	  </label>
