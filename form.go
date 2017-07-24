@@ -545,7 +545,6 @@ func (form *Form) BindFromRequest(req *http.Request) {
 		if err != nil {
 			continue
 		}
-		fmt.Println(field.GetName(), value[0])
 		if field.GetType() == ElementTypeMultiCheckbox {
 			field.SetValues(value)
 			continue
