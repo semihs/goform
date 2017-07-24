@@ -17,16 +17,6 @@ func NewSelectElement(name string, label string, attributes []*Attribute, valueO
 	return element
 }
 
-func (element *SelectElement) SetValue(value string) {
-	element.Element.SetValue(value)
-	for _, valueOption := range element.ValueOptions {
-		if valueOption.Value == value {
-			valueOption.Selected = true
-			break
-		}
-	}
-}
-
 func (element *SelectElement) Render() string {
 	return renderTemplate(ElementTypeSelect, element)
 }

@@ -63,7 +63,7 @@ var ThemeBootstrap4alpha6Inline Theme = `
     <div class="form-control-feedback d-block w-100">
         <ul>
             {{range .GetErrors}}
-            <li>{{.}}</li>
+            <li>{{.Message}}</li>
             {{end}}
         </ul>
     </div>
@@ -86,7 +86,7 @@ var ThemeBootstrap4alpha6Inline Theme = `
     <div class="form-control-feedback d-block w-100">
         <ul>
             {{range .GetErrors}}
-            <li>{{.}}</li>
+            <li>{{.Message}}</li>
             {{end}}
         </ul>
     </div>
@@ -111,7 +111,7 @@ var ThemeBootstrap4alpha6Inline Theme = `
     <div class="form-control-feedback d-block w-100">
         <ul>
             {{range .GetErrors}}
-            <li>{{.}}</li>
+            <li>{{.Message}}</li>
             {{end}}
         </ul>
     </div>
@@ -140,7 +140,7 @@ var ThemeBootstrap4alpha6Inline Theme = `
     <div class="form-control-feedback d-block w-100">
         <ul>
             {{range .GetErrors}}
-            <li>{{.}}</li>
+            <li>{{.Message}}</li>
             {{end}}
         </ul>
     </div>
@@ -162,7 +162,7 @@ var ThemeBootstrap4alpha6Inline Theme = `
     <div class="form-control-feedback d-block w-100">
         <ul>
             {{range .GetErrors}}
-            <li>{{.}}</li>
+            <li>{{.Message}}</li>
             {{end}}
         </ul>
     </div>
@@ -204,7 +204,7 @@ var ThemeBootstrap4alpha6Textual Theme = `
     <div class="form-control-feedback">
     <ul>
     {{range .GetErrors}}
-    <li>{{.}}</li>
+    <li>{{.Message}}</li>
     {{end}}
     </ul>
     </div>
@@ -251,7 +251,7 @@ var ThemeBootstrap4alpha6Textual Theme = `
     <div class="form-control-feedback">
     <ul>
     {{range .GetErrors}}
-    <li>{{.}}</li>
+    <li>{{.Message}}</li>
     {{end}}
     </ul>
     </div>
@@ -277,7 +277,7 @@ var ThemeBootstrap4alpha6Textual Theme = `
     <div class="form-control-feedback">
     <ul>
     {{range .GetErrors}}
-    <li>{{.}}</li>
+    <li>{{.Message}}</li>
     {{end}}
     </ul>
     </div>
@@ -305,7 +305,7 @@ var ThemeBootstrap4alpha6Textual Theme = `
 	    <div class="form-control-feedback">
 	    <ul>
 	    {{range .GetErrors}}
-	    <li>{{.}}</li>
+	    <li>{{.Message}}</li>
 	    {{end}}
 	    </ul>
 	    </div>
@@ -336,7 +336,7 @@ var ThemeBootstrap4alpha6Textual Theme = `
     <div class="form-control-feedback">
     <ul>
     {{range .GetErrors}}
-    <li>{{.}}</li>
+    <li>{{.Message}}</li>
     {{end}}
     </ul>
     </div>
@@ -360,7 +360,7 @@ var ThemeBootstrap4alpha6Textual Theme = `
     <div class="form-control-feedback">
     <ul>
     {{range .GetErrors}}
-    <li>{{.}}</li>
+    <li>{{.Message}}</li>
     {{end}}
     </ul>
     </div>
@@ -407,7 +407,7 @@ var ThemeBootstrap4alpha6 Theme = `
     <div class="form-control-feedback">
     <ul>
     {{range .GetErrors}}
-    <li>{{.}}</li>
+    <li>{{.Message}}</li>
     {{end}}
     </ul>
     </div>
@@ -450,7 +450,7 @@ var ThemeBootstrap4alpha6 Theme = `
     <div class="form-control-feedback">
     <ul>
     {{range .GetErrors}}
-    <li>{{.}}</li>
+    <li>{{.Message}}</li>
     {{end}}
     </ul>
     </div>
@@ -474,7 +474,7 @@ var ThemeBootstrap4alpha6 Theme = `
     <div class="form-control-feedback">
     <ul>
     {{range .GetErrors}}
-    <li>{{.}}</li>
+    <li>{{.Message}}</li>
     {{end}}
     </ul>
     </div>
@@ -501,7 +501,7 @@ var ThemeBootstrap4alpha6 Theme = `
 	    <div class="form-control-feedback">
 	    <ul>
 	    {{range .GetErrors}}
-	    <li>{{.}}</li>
+	    <li>{{.Message}}</li>
 	    {{end}}
 	    </ul>
 	    </div>
@@ -532,7 +532,7 @@ var ThemeBootstrap4alpha6 Theme = `
     <div class="form-control-feedback">
     <ul>
     {{range .GetErrors}}
-    <li>{{.}}</li>
+    <li>{{.Message}}</li>
     {{end}}
     </ul>
     </div>
@@ -554,7 +554,7 @@ var ThemeBootstrap4alpha6 Theme = `
     <div class="form-control-feedback">
     <ul>
     {{range .GetErrors}}
-    <li>{{.}}</li>
+    <li>{{.Message}}</li>
     {{end}}
     </ul>
     </div>

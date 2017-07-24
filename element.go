@@ -185,6 +185,15 @@ func (element *Element) SetValue(s string) {
 	for _, f := range element.Filters {
 		f.SetValue(s)
 	}
+
+	if element.ValueOptions != nil {
+		for _, valueOption := range element.ValueOptions {
+			if valueOption.Value == s {
+				valueOption.Selected = true
+				break
+			}
+		}
+	}
 }
 
 func (element *Element) SetValues(s []string) {
