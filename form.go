@@ -234,6 +234,12 @@ func (form *Form) MapTo(model interface{}) {
 				fmt.Printf("parsing error", v)
 			}
 			workField.SetInt(int64(value))
+		case reflect.Uint32:
+			value, err := strconv.Atoi(v)
+			if err != nil {
+				fmt.Printf("parsing error", v)
+			}
+			workField.SetUint(uint64(value))
 		case reflect.Float32, reflect.Float64:
 			value, err := strconv.ParseFloat(v, 64)
 			if err != nil {
@@ -275,6 +281,13 @@ func (form *Form) MapTo(model interface{}) {
 				switch vStructFirstKind {
 				case "string":
 					vStruct.Field(0).Set(reflect.ValueOf(v))
+				case "uint32":
+					intV, err := strconv.Atoi(v)
+					if err != nil {
+						fmt.Println("an error occurred while str to uint32", vStructFirstKind)
+						continue
+					}
+					vStruct.Field(0).Set(reflect.ValueOf(uint32(intV)))
 				case "int64":
 					intV, err := strconv.Atoi(v)
 					if err != nil {
@@ -345,6 +358,13 @@ func (form *Form) MapTo(model interface{}) {
 			workFieldElem := reflect.New(workField.Type().Elem())
 
 			switch workFieldElem.Elem().Kind() {
+			case reflect.Uint32:
+				value, err := strconv.Atoi(v)
+				if err != nil {
+					fmt.Printf("parsing error", v)
+				}
+				iVal := uint32(value)
+				workField.Set(reflect.ValueOf(&iVal))
 			case reflect.Int64:
 				value, err := strconv.Atoi(v)
 				if err != nil {
@@ -427,6 +447,13 @@ func (form *Form) MapTo(model interface{}) {
 					switch vStructFirstKind {
 					case "string":
 						vStruct.Field(0).Set(reflect.ValueOf(v))
+					case "uint32":
+						intV, err := strconv.Atoi(v)
+						if err != nil {
+							fmt.Println("an error occurred while str to uint32", vStructFirstKind)
+							continue
+						}
+						vStructFirstField.Set(reflect.ValueOf(uint32(intV)))
 					case "int64":
 						intV, err := strconv.Atoi(v)
 						if err != nil {
@@ -637,6 +664,8 @@ func (form *Form) BindFromInterface(i interface{}) {
 				if _, ok := val.(string); !ok {
 					field.SetValue(fmt.Sprintf("%s", val))
 				}
+			case "uint32":
+				field.SetValue(strconv.Itoa(int(val.(uint32))))
 			case "int64":
 				field.SetValue(strconv.Itoa(int(val.(int64))))
 			case "int32":
