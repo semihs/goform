@@ -61,7 +61,8 @@ func (filter *RenameFilter) Apply() error {
 	fileName := path + strings.Replace(strings.ToLower(slugify.Marshal(filter.File.Name)), "."+filter.File.Extension, "", -1)
 
 	if randomize {
-		fileName = fileName + "-" + uuid.NewV4().String()
+		uid, _ := uuid.NewV4()
+		fileName = fileName + "-" + uid.String()
 	}
 	fileName = strings.ToLower(fileName)
 
