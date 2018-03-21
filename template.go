@@ -584,8 +584,8 @@ var ThemeBootstrap4alpha6 Theme = `
 // https://getbootstrap.com/components/forms/
 var ThemeBootstrap4Inline Theme = `
 {{define "text"}}
-<div class="form-group mr-2 {{if .GetErrors}}has-danger has-feedback{{end}}">
-    <label for="id_{{.Name}}" class="mr-2">{{.Label}}</label>
+<div class="form-group mr-3 {{if .GetErrors}}has-danger has-feedback{{end}}">
+    <label for="id_{{.Name}}" class="mr-3">{{.Label}}</label>
     <input name="{{.Name}}" type="{{.Type}}" value="{{.Value}}" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
            {{if not (.HasAttribute "class")}}class="form-control"{{end}}
     id="id_{{.Name}}" />
@@ -603,8 +603,8 @@ var ThemeBootstrap4Inline Theme = `
 {{end}}
 
 {{define "file"}}
-<div class="form-group mr-2 {{if .GetErrors}}has-danger{{end}}">
-    <label for="id_{{.Name}}" class="mr-2">{{.Label}}</label>
+<div class="form-group mr-3 {{if .GetErrors}}has-danger{{end}}">
+    <label for="id_{{.Name}}" class="mr-3">{{.Label}}</label>
     <label class="custom-file">
 
     {{if .GetFile}}
@@ -627,8 +627,8 @@ var ThemeBootstrap4Inline Theme = `
 {{end}}
 
 {{define "textarea"}}
-<div class="form-group mr-2 {{if .GetErrors}}has-danger{{end}}">
-    <label for="id_{{.Name}}" class="mr-2">{{.Label}}</label>
+<div class="form-group mr-3 {{if .GetErrors}}has-danger{{end}}">
+    <label for="id_{{.Name}}" class="mr-3">{{.Label}}</label>
     <textarea name="{{.Name}}"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
           {{if not (.HasAttribute "class")}}class="form-control"{{end}}
     id="id_{{.Name}}">{{.Value}}</textarea>
@@ -646,8 +646,8 @@ var ThemeBootstrap4Inline Theme = `
 {{end}}
 
 {{define "select"}}
-<div class="form-group mr-2 {{if .GetErrors}}has-danger{{end}}">
-    <label for="id_{{.Name}}" class="mr-2">{{.Label}}</label>
+<div class="form-group mr-3 {{if .GetErrors}}has-danger{{end}}">
+    <label for="id_{{.Name}}" class="mr-3">{{.Label}}</label>
     <select name="{{.Name}}"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
             {{if not (.HasAttribute "class")}}class="form-control"{{end}}
     id="id_{{.Name}}">
@@ -669,8 +669,8 @@ var ThemeBootstrap4Inline Theme = `
 {{end}}
 
 {{define "radio"}}
-<div class="form-group mr-2 {{if .GetErrors}}has-danger{{end}}">
-    <label class="mr-2 d-block">{{.Label}}</label>
+<div class="form-group mr-3 {{if .GetErrors}}has-danger{{end}}">
+    <label class="mr-3 d-block">{{.Label}}</label>
     {{range $index, $option := .ValueOptions}}
     <div class="custom-control custom-control-inline custom-radio">
         <input type="radio" name="{{$.Name}}" value="{{$option.Value}}" id="{{$.Name}}{{$index}}" class="custom-control-input"
@@ -693,8 +693,8 @@ var ThemeBootstrap4Inline Theme = `
 {{end}}
 
 {{define "multicheckbox"}}
-<div class="form-group mr-2 {{if .GetErrors}}has-danger{{end}}">
-    <label class="mr-2 d-block">{{.Label}}</label>
+<div class="form-group mr-3 {{if .GetErrors}}has-danger{{end}}">
+    <label class="mr-3 d-block">{{.Label}}</label>
     {{range $index, $option := .ValueOptions}}
     <div class="custom-control custom-control-inline custom-checkbox">
         <input type="checkbox" name="{{$.Name}}[]" value="{{$option.Value}}" id="{{$.Name}}{{$index}}" class="custom-control-input"
@@ -721,7 +721,7 @@ var ThemeBootstrap4Inline Theme = `
 {{end}}
 
 {{define "checkbox"}}
-<div class="form-group mr-2">
+<div class="form-group mr-3">
 
     <div class="custom-control custom-control-inline custom-checkbox" {{if .GetErrors}}has-danger{{end}}>
         <input type="checkbox" name="{{.Name}}" value="true" id="{{.Name}}" class="custom-control-input"
@@ -742,19 +742,19 @@ var ThemeBootstrap4Inline Theme = `
 {{end}}
 
 {{define "button"}}
-<div class="form-group mr-2">
-    <button type="submit" class="btn btn-primary ml-2"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} style="min-width: 200px;">{{.Label}}</button>
+<div class="form-group mr-3">
+    <button type="submit" class="btn btn-primary ml-3"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} style="min-width: 200px;">{{.Label}}</button>
 </div>
 {{end}}
 
 {{define "submit"}}
-<div class="form-group mr-2">
-    <input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="submit" class="btn btn-primary ml-2"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} value="{{.Label}}" style="min-width: 200px;">
+<div class="form-group mr-3">
+    <input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="submit" class="btn btn-primary ml-3"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} value="{{.Label}}" style="min-width: 200px;">
 </div>
 {{end}}
 
 {{define "image"}}
-<div class="form-group mr-2">
+<div class="form-group mr-3">
     <input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="image" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}>
 </div>
 {{end}}
@@ -897,7 +897,7 @@ var ThemeBootstrap4Textual Theme = `
       {{if $option.Selected}} checked{{end}}
       {{end}}
       {{if $option.Disabled}} disabled{{end}} />
-      <span class="custom-control-label" for="{{$.Name}}{{$index}}">{{$option.Label}}</span>
+      <label class="custom-control-label" for="{{$.Name}}{{$index}}">{{$option.Label}}</label>
     </div>
     {{end}}
 
@@ -940,7 +940,7 @@ var ThemeBootstrap4Textual Theme = `
 {{define "button"}}
 <div class="form-group row">
 <div class="offset-xl-2 offset-lg-3">
-<button type="submit" class="btn btn-primary ml-2"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} style="min-width: 200px;">{{.Label}}</button>
+<button type="submit" class="btn btn-primary ml-3"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} style="min-width: 200px;">{{.Label}}</button>
 </div>
 </div>
 {{end}}
@@ -948,7 +948,7 @@ var ThemeBootstrap4Textual Theme = `
 {{define "submit"}}
 <div class="form-group row">
 <div class="offset-xl-2 offset-lg-3">
-<input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="submit" class="btn btn-primary ml-2"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} value="{{.Label}}" style="min-width: 200px;">
+<input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="submit" class="btn btn-primary ml-3"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} value="{{.Label}}" style="min-width: 200px;">
 </div>
 </div>
 {{end}}
@@ -1126,13 +1126,13 @@ var ThemeBootstrap4 Theme = `
 
 {{define "button"}}
 <div class="form-group">
-<button type="submit" class="btn btn-primary ml-2"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} style="min-width: 200px;">{{.Label}}</button>
+<button type="submit" class="btn btn-primary ml-3"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} style="min-width: 200px;">{{.Label}}</button>
 </div>
 {{end}}
 
 {{define "submit"}}
 <div class="form-group">
-<input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="submit" class="btn btn-primary ml-2"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} value="{{.Label}}" style="min-width: 200px;">
+<input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="submit" class="btn btn-primary ml-3"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} value="{{.Label}}" style="min-width: 200px;">
 </div>
 {{end}}
 
