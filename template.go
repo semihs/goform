@@ -226,11 +226,11 @@ var ThemeBootstrap4alpha6Textual Theme = `
     </a>
     {{end}}
     {{end}}
-    <label class="custom-file w-100">
+    <div class="custom-file w-100">
   	<input id="id_{{.Name}}" name="{{.Name}}" type="{{.Type}}" value="{{.Value}}" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
   	{{if not (.HasAttribute "class")}}class="custom-file-input"{{end}}>
-        <span class="custom-file-control"></span>
-    </label>
+        <label class="custom-file-label"></label>
+    </div>
     </div>
 </div>
 {{end}}
@@ -292,12 +292,11 @@ var ThemeBootstrap4alpha6Textual Theme = `
     <label class="col-xl-2 col-lg-3 col-md-12 col-form-label">{{.Label}}</label>
     <div class="col-xl-10 col-lg-9 col-md-12">
 	{{range .ValueOptions}}
-	  <label class="custom-control custom-radio">
+	  <label class="custom-control custom-radio custom-control-inline">
 	    <input type="radio" name="{{$.Name}}" value="{{.Value}}" id="{{$.Name}}" class="custom-control-input"
 		     {{if eq $.Value .Value}} checked {{else}} {{if .Selected}} checked {{end}} {{end}}
 		     {{if .Disabled}} disabled{{end}}{{range $.Attributes}} {{.Key}}="{{.Value}}"{{end}} />
-	    <span class="custom-control-indicator"></span>
-	    <span class="custom-control-description">{{.Label}}</span>
+	    <span class="custom-control-label">{{.Label}}</span>
 	  </label>
 	{{end}}
 
@@ -372,7 +371,7 @@ var ThemeBootstrap4alpha6Textual Theme = `
 {{define "button"}}
 <div class="form-group row">
 <div class="offset-xl-2 offset-lg-3">
-<button type="submit" class="btn btn-primary ml-2"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} style="min-width: 200px;">{{.Label}}</button>
+<button type="submit" class="btn btn-primary ml-3"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} style="min-width: 200px;">{{.Label}}</button>
 </div>
 </div>
 {{end}}
@@ -380,7 +379,7 @@ var ThemeBootstrap4alpha6Textual Theme = `
 {{define "submit"}}
 <div class="form-group row">
 <div class="offset-xl-2 offset-lg-3">
-<input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="submit" class="btn btn-primary ml-2"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} value="{{.Label}}" style="min-width: 200px;">
+<input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="submit" class="btn btn-primary ml-3"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} value="{{.Label}}" style="min-width: 200px;">
 </div>
 </div>
 {{end}}
