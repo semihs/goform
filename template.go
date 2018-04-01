@@ -580,6 +580,568 @@ var ThemeBootstrap4alpha6 Theme = `
 {{end}}
 `
 
+// https://getbootstrap.com/components/forms/
+var ThemeBootstrap4Inline Theme = `
+{{define "text"}}
+<div class="form-group mr-3 {{if .GetErrors}}has-danger has-feedback{{end}}">
+    <label for="id_{{.Name}}" class="mr-3">{{.Label}}</label>
+    <input name="{{.Name}}" type="{{.Type}}" value="{{.Value}}" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
+           {{if not (.HasAttribute "class")}}class="form-control"{{end}}
+    id="id_{{.Name}}" />
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback d-block w-100">
+        <ul>
+            {{range .GetErrors}}
+            <li>{{.Message}}</li>
+            {{end}}
+        </ul>
+    </div>
+    {{end}}
+</div>
+{{end}}
+
+{{define "file"}}
+<div class="form-group mr-3 {{if .GetErrors}}has-danger{{end}}">
+    <label for="id_{{.Name}}" class="mr-3">{{.Label}}</label>
+    <label class="custom-file">
+
+    {{if .GetFile}}
+    <a href="{{.GetFile.Location}}" target="_blank">{{.GetFile.Name}}</a>
+    {{if ne .GetDeletionUrl ""}}
+    <a class="text-danger btn-confirm-delete" href="{{.GetDeletionUrl}}">
+    <i class="fa fa-times"></i>
+    </a>
+    {{end}}
+    {{end}}
+        <input id="id_{{.Name}}" name="{{.Name}}" type="{{.Type}}" value="{{.Value}}" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
+               {{if not (.HasAttribute "class")}}class="custom-file-input"{{end}}>
+        <span class="custom-file-control"></span>
+    </label>
+</div>
+{{end}}
+
+{{define "hidden"}}
+<input name="{{.Name}}" type="{{.Type}}" value="{{.Value}}"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} id="id_{{.Name}}" />
+{{end}}
+
+{{define "textarea"}}
+<div class="form-group mr-3 {{if .GetErrors}}has-danger{{end}}">
+    <label for="id_{{.Name}}" class="mr-3">{{.Label}}</label>
+    <textarea name="{{.Name}}"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
+          {{if not (.HasAttribute "class")}}class="form-control"{{end}}
+    id="id_{{.Name}}">{{.Value}}</textarea>
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback d-block w-100">
+        <ul>
+            {{range .GetErrors}}
+            <li>{{.Message}}</li>
+            {{end}}
+        </ul>
+    </div>
+    {{end}}
+</div>
+{{end}}
+
+{{define "select"}}
+<div class="form-group mr-3 {{if .GetErrors}}has-danger{{end}}">
+    <label for="id_{{.Name}}" class="mr-3">{{.Label}}</label>
+    <select name="{{.Name}}"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
+            {{if not (.HasAttribute "class")}}class="form-control"{{end}}
+    id="id_{{.Name}}">
+    {{range .ValueOptions}}
+    <option value="{{.Value}}"{{if .Selected}} selected{{end}}{{if .Disabled}} disabled{{end}}>{{.Label}}</option>
+    {{end}}
+    </select>
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback d-block w-100">
+        <ul>
+            {{range .GetErrors}}
+            <li>{{.Message}}</li>
+            {{end}}
+        </ul>
+    </div>
+    {{end}}
+</div>
+{{end}}
+
+{{define "radio"}}
+<div class="form-group mr-3 {{if .GetErrors}}has-danger{{end}}">
+    <label class="mr-3 d-block">{{.Label}}</label>
+    {{range $index, $option := .ValueOptions}}
+    <div class="custom-control custom-control-inline custom-radio">
+        <input type="radio" name="{{$.Name}}" value="{{$option.Value}}" id="{{$.Name}}{{$index}}" class="custom-control-input"
+               {{if eq $.Value $option.Value}} checked {{else}} {{if $option.Selected}} checked {{end}} {{end}}
+               {{if $option.Disabled}} disabled{{end}} />
+        <label class="custom-control-label" for="{{$.Name}}{{$index}}">{{$option.Label}}</label>
+    </div>
+    {{end}}
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback d-block w-100">
+        <ul>
+            {{range .GetErrors}}
+            <li>{{.Message}}</li>
+            {{end}}
+        </ul>
+    </div>
+    {{end}}
+</div>
+{{end}}
+
+{{define "multicheckbox"}}
+<div class="form-group mr-3 {{if .GetErrors}}has-danger{{end}}">
+    <label class="mr-3 d-block">{{.Label}}</label>
+    {{range $index, $option := .ValueOptions}}
+    <div class="custom-control custom-control-inline custom-checkbox">
+        <input type="checkbox" name="{{$.Name}}[]" value="{{$option.Value}}" id="{{$.Name}}{{$index}}" class="custom-control-input"
+               {{if $.IsCheckedInValues $option.Value}}
+               checked
+               {{else}}
+               {{if $option.Selected}} checked{{end}}
+               {{end}}
+               {{if $option.Disabled}} disabled{{end}} />
+        <label class="custom-control-label" for="{{$.Name}}{{$index}}">{{$option.Label}}</label>
+    </div>
+    {{end}}
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback d-block w-100">
+        <ul>
+            {{range .GetErrors}}
+            <li>{{.Message}}</li>
+            {{end}}
+        </ul>
+    </div>
+    {{end}}
+</div>
+{{end}}
+
+{{define "checkbox"}}
+<div class="form-group mr-3">
+
+    <div class="custom-control custom-control-inline custom-checkbox" {{if .GetErrors}}has-danger{{end}}>
+        <input type="checkbox" name="{{.Name}}" value="true" id="{{.Name}}" class="custom-control-input"
+               {{if .IsChecked}} checked{{end}}/>
+        <label class="custom-control-label" for="{{.Name}}">{{.Label}}</label>
+    </div>
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback d-block w-100">
+        <ul>
+            {{range .GetErrors}}
+            <li>{{.Message}}</li>
+            {{end}}
+        </ul>
+    </div>
+    {{end}}
+</div>
+{{end}}
+
+{{define "button"}}
+<div class="form-group mr-3">
+    <button type="submit" class="btn btn-primary ml-3"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} style="min-width: 200px;">{{.Label}}</button>
+</div>
+{{end}}
+
+{{define "submit"}}
+<div class="form-group mr-3">
+    <input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="submit" class="btn btn-primary ml-3"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} value="{{.Label}}" style="min-width: 200px;">
+</div>
+{{end}}
+
+{{define "image"}}
+<div class="form-group mr-3">
+    <input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="image" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}>
+</div>
+{{end}}
+
+`
+
+// https://v4-alpha.getbootstrap.com/components/forms/
+var ThemeBootstrap4Textual Theme = `
+{{define "text"}}
+<div class="form-group row {{if .GetErrors}}has-danger{{end}}">
+    <label for="id_{{.Name}}" class="col-xl-2 col-lg-3 col-md-12 col-form-label">{{.Label}}</label>
+    <div class="col-xl-10 col-lg-9 col-md-12">
+    <input name="{{.Name}}" type="{{.Type}}" value="{{.Value}}" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
+    {{if not (.HasAttribute "class")}}class="form-control"{{end}}
+    id="id_{{.Name}}" />
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback">
+    <ul>
+    {{range .GetErrors}}
+    <li>{{.Message}}</li>
+    {{end}}
+    </ul>
+    </div>
+    {{end}}
+
+    </div>
+</div>
+{{end}}
+
+{{define "file"}}
+<div class="form-group row {{if .GetErrors}}has-danger{{end}}">
+    <label for="id_{{.Name}}" class="col-xl-2 col-lg-3 col-md-12 col-form-label">{{.Label}}</label>
+    <div class="col-xl-10 col-lg-9 col-md-12">
+    {{if .GetFile}}
+    <a href="{{.GetFile.Location}}" target="_blank">{{.GetFile.Name}}</a>
+    {{if ne .GetDeletionUrl ""}}
+    <a class="text-danger btn-confirm-delete" href="{{.GetDeletionUrl}}">
+    <i class="fa fa-times"></i>
+    </a>
+    {{end}}
+    {{end}}
+    <label class="custom-file w-100">
+  	<input id="id_{{.Name}}" name="{{.Name}}" type="{{.Type}}" value="{{.Value}}" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
+  	{{if not (.HasAttribute "class")}}class="custom-file-input"{{end}}>
+        <span class="custom-file-control"></span>
+    </label>
+    </div>
+</div>
+{{end}}
+
+{{define "hidden"}}
+<input name="{{.Name}}" type="{{.Type}}" value="{{.Value}}"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} id="id_{{.Name}}" />
+{{end}}
+
+{{define "textarea"}}
+<div class="form-group row {{if .GetErrors}}has-danger{{end}}">
+    <label for="id_{{.Name}}" class="col-xl-2 col-lg-3 col-md-12 col-form-label">{{.Label}}</label>
+    <div class="col-xl-10 col-lg-9 col-md-12">
+    <textarea name="{{.Name}}"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
+    {{if not (.HasAttribute "class")}}class="form-control"{{end}}
+    id="id_{{.Name}}">{{.Value}}</textarea>
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback">
+    <ul>
+    {{range .GetErrors}}
+    <li>{{.Message}}</li>
+    {{end}}
+    </ul>
+    </div>
+    {{end}}
+
+    </div>
+</div>
+{{end}}
+
+{{define "select"}}
+<div class="form-group row {{if .GetErrors}}has-danger{{end}}">
+    <label for="id_{{.Name}}" class="col-xl-2 col-lg-3 col-md-12 col-form-label">{{.Label}}</label>
+    <div class="col-xl-10 col-lg-9 col-md-12">
+    <select name="{{.Name}}"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
+    {{if not (.HasAttribute "class")}}class="form-control"{{end}}
+    id="id_{{.Name}}">
+      {{range .ValueOptions}}
+        <option value="{{.Value}}"{{if .Selected}} selected{{end}}{{if .Disabled}} disabled{{end}}>{{.Label}}</option>
+      {{end}}
+    </select>
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback">
+    <ul>
+    {{range .GetErrors}}
+    <li>{{.Message}}</li>
+    {{end}}
+    </ul>
+    </div>
+    {{end}}
+
+    </div>
+</div>
+{{end}}
+
+{{define "radio"}}
+<div class="form-group row {{if .GetErrors}}has-danger{{end}}">
+    <label class="col-xl-2 col-lg-3 col-md-12 col-form-label">{{.Label}}</label>
+    <div class="col-xl-10 col-lg-9 col-md-12">
+	{{range $index, $option := .ValueOptions}}
+	  <div class="custom-control custom-control-inline custom-radio">
+	    <input type="radio" name="{{$.Name}}" value="{{$option.Value}}" id="{{$.Name}}{{$index}}" class="custom-control-input"
+		     {{if eq $.Value $option.Value}} checked {{else}} {{if $option.Selected}} checked {{end}} {{end}}
+		     {{if $option.Disabled}} disabled{{end}}{{range $.Attributes}} {{.Key}}="{{.Value}}"{{end}} />
+	    <label class="custom-control-label" for="{{$.Name}}{{$index}}">{{$option.Label}}</label>
+	  </div>
+	{{end}}
+
+	    {{if .GetErrors}}
+	    <div class="form-control-feedback">
+	    <ul>
+	    {{range .GetErrors}}
+	    <li>{{.Message}}</li>
+	    {{end}}
+	    </ul>
+	    </div>
+	    {{end}}
+    </div>
+</div>
+{{end}}
+
+{{define "multicheckbox"}}
+<div class="form-group row {{if .GetErrors}}has-danger{{end}}">
+    <label class="col-xl-2 col-lg-3 col-md-12 col-form-label">{{.Label}}</label>
+    <div class="col-xl-10 col-lg-9 col-md-12">
+    {{range $index, $option := .ValueOptions}}
+    <div class="custom-control custom-control-inline custom-checkbox ml-1">
+      <input type="checkbox" name="{{$.Name}}[]" value="{{$option.Value}}" id="{{$.Name}}{{$index}}" class="custom-control-input"
+      {{if $.IsCheckedInValues $option.Value}}
+      checked
+      {{else}}
+      {{if $option.Selected}} checked{{end}}
+      {{end}}
+      {{if $option.Disabled}} disabled{{end}} />
+      <label class="custom-control-label" for="{{$.Name}}{{$index}}">{{$option.Label}}</label>
+    </div>
+    {{end}}
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback">
+    <ul>
+    {{range .GetErrors}}
+    <li>{{.Message}}</li>
+    {{end}}
+    </ul>
+    </div>
+    {{end}}
+
+    </div>
+</div>
+{{end}}
+
+{{define "checkbox"}}
+<div class="form-group row {{if .GetErrors}}has-danger{{end}}">
+<div class="offset-xl-2 offset-lg-3">
+  <div class="custom-control custom-control-inline custom-checkbox ml-3">
+    <input type="checkbox" name="{{.Name}}" value="true" id="{{.Name}}" class="custom-control-input"
+     {{if .IsChecked}} checked{{end}}/>
+    <label class="custom-control-label" for="{{.Name}}">{{.Label}}</label>
+  </div>
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback">
+    <ul>
+    {{range .GetErrors}}
+    <li>{{.Message}}</li>
+    {{end}}
+    </ul>
+    </div>
+    {{end}}
+</div>
+</div>
+{{end}}
+
+{{define "button"}}
+<div class="form-group row">
+<div class="offset-xl-2 offset-lg-3">
+<button type="submit" class="btn btn-primary ml-3"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} style="min-width: 200px;">{{.Label}}</button>
+</div>
+</div>
+{{end}}
+
+{{define "submit"}}
+<div class="form-group row">
+<div class="offset-xl-2 offset-lg-3">
+<input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="submit" class="btn btn-primary ml-3"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} value="{{.Label}}" style="min-width: 200px;">
+</div>
+</div>
+{{end}}
+
+{{define "image"}}
+<div class="form-group row">
+<div class="offset-xl-2 offset-lg-3">
+<input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="image" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}>
+</div>
+</div>
+{{end}}
+`
+
+// https://v4-alpha.getbootstrap.com/components/forms/
+var ThemeBootstrap4 Theme = `
+{{define "text"}}
+<div class="form-group{{if .GetErrors}} has-danger{{end}}">
+    <label for="id_{{.Name}}">{{.Label}}</label>
+    <input name="{{.Name}}" type="{{.Type}}" value="{{.Value}}" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
+    {{if not (.HasAttribute "class")}}class="form-control"{{end}}
+    id="id_{{.Name}}" />
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback">
+    <ul>
+    {{range .GetErrors}}
+    <li>{{.Message}}</li>
+    {{end}}
+    </ul>
+    </div>
+    {{end}}
+</div>
+{{end}}
+
+{{define "file"}}
+<div class="form-group{{if .GetErrors}} has-danger{{end}}">
+    <label for="id_{{.Name}}">{{.Label}}</label>
+    <label class="custom-file w-100">
+
+    {{if .GetFile}}
+    <a href="{{.GetFile.Location}}" target="_blank">{{.GetFile.Name}}</a>
+    {{if ne .GetDeletionUrl ""}}
+    <a class="text-danger btn-confirm-delete" href="{{.GetDeletionUrl}}">
+    <i class="fa fa-times"></i>
+    </a>
+    {{end}}
+    {{end}}
+  	<input id="id_{{.Name}}" name="{{.Name}}" type="{{.Type}}" value="{{.Value}}" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
+  	{{if not (.HasAttribute "class")}}class="custom-file-input"{{end}}>
+        <span class="custom-file-control"></span>
+    </label>
+</div>
+{{end}}
+
+{{define "hidden"}}
+<input name="{{.Name}}" type="{{.Type}}" value="{{.Value}}"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} id="id_{{.Name}}" />
+{{end}}
+
+{{define "textarea"}}
+<div class="form-group{{if .GetErrors}} has-danger{{end}}">
+    <label for="id_{{.Name}}">{{.Label}}</label>
+    <textarea name="{{.Name}}"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
+    {{if not (.HasAttribute "class")}}class="form-control"{{end}}
+    id="id_{{.Name}}">{{.Value}}</textarea>
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback">
+    <ul>
+    {{range .GetErrors}}
+    <li>{{.Message}}</li>
+    {{end}}
+    </ul>
+    </div>
+    {{end}}
+
+</div>
+{{end}}
+
+{{define "select"}}
+<div class="form-group{{if .GetErrors}} has-danger{{end}}">
+    <label for="id_{{.Name}}">{{.Label}}</label>
+    <select name="{{.Name}}"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}
+    {{if not (.HasAttribute "class")}}class="form-control"{{end}}
+    id="id_{{.Name}}">
+      {{range .ValueOptions}}
+        <option value="{{.Value}}"{{if .Selected}} selected{{end}}{{if .Disabled}} disabled{{end}}>{{.Label}}</option>
+      {{end}}
+    </select>
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback">
+    <ul>
+    {{range .GetErrors}}
+    <li>{{.Message}}</li>
+    {{end}}
+    </ul>
+    </div>
+    {{end}}
+
+</div>
+{{end}}
+
+{{define "radio"}}
+<div class="form-group{{if .GetErrors}} has-danger{{end}}">
+    <label>{{.Label}}</label>
+	{{range $index, $option := .ValueOptions}}
+	  <div class="custom-control custom-control-inline custom-radio">
+	    <input type="radio" name="{{$.Name}}" value="{{$option.Value}}" id="{{$.Name}}{{$index}}" class="custom-control-input"
+		     {{if eq $.Value $option.Value}} checked {{else}} {{if $option.Selected}} checked {{end}} {{end}}
+		     {{if $option.Disabled}} disabled{{end}} />
+	    <label class="custom-control-label" for="{{$.Name}}{{$index}}">{{$option.Label}}</label>
+	  </div>
+	{{end}}
+
+	    {{if .GetErrors}}
+	    <div class="form-control-feedback">
+	    <ul>
+	    {{range .GetErrors}}
+	    <li>{{.Message}}</li>
+	    {{end}}
+	    </ul>
+	    </div>
+	    {{end}}
+</div>
+{{end}}
+
+{{define "multicheckbox"}}
+<div class="form-group{{if .GetErrors}} has-danger{{end}}">
+    <label>{{.Label}}</label>
+    {{range $index, $option := .ValueOptions}}
+    <div class="custom-control custom-control-inline custom-checkbox">
+      <input type="checkbox" name="{{$.Name}}[]" value="{{$option.Value}}" id="{{$.Name}}{{$index}}" class="custom-control-input"
+      {{if $.IsCheckedInValues $option.Value}}
+      checked
+      {{else}}
+      {{if $option.Selected}} checked{{end}}
+      {{end}}
+      {{if $option.Disabled}} disabled{{end}} />
+      <label class="custom-control-label" for="{{$.Name}}{{$index}}">{{.Label}}</label>
+    </div>
+    {{end}}
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback">
+    <ul>
+    {{range .GetErrors}}
+    <li>{{.Message}}</li>
+    {{end}}
+    </ul>
+    </div>
+    {{end}}
+
+</div>
+{{end}}
+
+{{define "checkbox"}}
+<div class="form-group{{if .GetErrors}} has-danger{{end}}">
+  <div class="custom-control custom-control-inline custom-checkbox mr-3">
+    <input type="checkbox" name="{{.Name}}" value="true" id="{{.Name}}" class="custom-control-input"
+     {{if .IsChecked}} checked{{end}}/>
+    <label class="custom-control-label" for="{{.Name}}">{{.Label}}</label>
+  </div>
+
+    {{if .GetErrors}}
+    <div class="form-control-feedback">
+    <ul>
+    {{range .GetErrors}}
+    <li>{{.Message}}</li>
+    {{end}}
+    </ul>
+    </div>
+    {{end}}
+</div>
+{{end}}
+
+{{define "button"}}
+<div class="form-group">
+<button type="submit" class="btn btn-primary ml-3"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} style="min-width: 200px;">{{.Label}}</button>
+</div>
+{{end}}
+
+{{define "submit"}}
+<div class="form-group">
+<input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="submit" class="btn btn-primary ml-3"{{range .Attributes}} {{.Key}}="{{.Value}}"{{end}} value="{{.Label}}" style="min-width: 200px;">
+</div>
+{{end}}
+
+{{define "image"}}
+<div class="form-group">
+<input name="{{if .Name}}{{.Name}}{{else}}submit{{end}}" type="image" {{range .Attributes}} {{.Key}}="{{.Value}}"{{end}}>
+</div>
+{{end}}
+`
+
 func NewTemplate(theme Theme, funcMap template.FuncMap) *template.Template {
 	var err error
 	t, err := template.New("goform").Funcs(funcMap).Parse(string(theme))
