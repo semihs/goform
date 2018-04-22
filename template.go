@@ -318,17 +318,16 @@ var ThemeBootstrap4alpha6Textual Theme = `
     <label class="col-xl-2 col-lg-3 col-md-12 col-form-label">{{.Label}}</label>
     <div class="col-xl-10 col-lg-9 col-md-12">
     {{range .ValueOptions}}
-    <label class="custom-control custom-checkbox ml-1">
-      <input type="checkbox" class="custom-control-input" name="{{$.Name}}[]" value="{{.Value}}" id="{{$.Name}}" class="custom-control-input"
+    <div class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input" name="{{$.Name}}[]" value="{{.Value}}" id="{{$.Name}}{{.Value}}" class="custom-control-input"
       {{if $.IsCheckedInValues .Value}}
       checked
       {{else}}
       {{if .Selected}} checked{{end}}
       {{end}}
       {{if .Disabled}} disabled{{end}} />
-      <span class="custom-control-indicator"></span>
-      <span class="custom-control-description">{{.Label}}</span>
-    </label>
+      <label class="custom-control-label" for="{{$.Name}}{{.Value}}">{{.Label}}</label>
+    </div>
     {{end}}
 
     {{if .GetErrors}}
