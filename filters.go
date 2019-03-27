@@ -2,10 +2,6 @@ package goform
 
 import (
 	"fmt"
-	"github.com/astaxie/beego"
-	"github.com/nfnt/resize"
-	"github.com/satori/go.uuid"
-	"github.com/semihs/goform/slugify"
 	"image"
 	"image/gif"
 	_ "image/gif"
@@ -15,6 +11,10 @@ import (
 	_ "image/png"
 	"os"
 	"strings"
+
+	"github.com/nfnt/resize"
+	uuid "github.com/satori/go.uuid"
+	"github.com/semihs/goform/slugify"
 )
 
 type FilterInterface interface {
@@ -100,7 +100,7 @@ func (filter *ImageResizeFilter) Apply() error {
 		m := resize.Resize(uint(conversion.Width), uint(conversion.Height), img, resize.Lanczos3)
 		out, err := os.Create(location)
 		if err != nil {
-			beego.Error(err)
+			return err
 		}
 		defer out.Close()
 		if format == "jpeg" {
