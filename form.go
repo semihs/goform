@@ -537,6 +537,17 @@ func (form *Form) BindFromPost(req *http.Request) {
 		field.SetValue(value[0])
 	}
 
+	// handle situation when checkboxes has default value set to checked/true and the value is not reset because
+	// unchecked checkbox is not in the request
+	for _, field := range form.GetElements() {
+		if field.GetType() == ElementTypeCheckbox {
+			if _, ok := req.PostForm[field.GetName()]; !ok {
+				// "false" can be parsed and assigned to bool in f.MapTo() later
+				field.SetValue("false")
+			}
+		}
+	}
+
 	if req.Header.Get("Content-Type") != "" {
 		if strings.Fields(req.Header.Get("Content-Type"))[0] == "multipart/form-data;" {
 			req.ParseMultipartForm(0)
