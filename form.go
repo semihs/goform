@@ -54,7 +54,7 @@ type Form struct {
 
 func NewGoForm() *Form {
 	return &Form{
-		theme: ThemeBootstrap4alpha6Textual,
+		theme: ThemeBootstrap4Textual,
 	}
 }
 
