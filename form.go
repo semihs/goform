@@ -3,6 +3,7 @@ package goform
 import (
 	"errors"
 	"fmt"
+	"log"
 	"mime/multipart"
 	"net/http"
 	"net/url"
@@ -15,7 +16,7 @@ import (
 )
 
 var (
-	ErrElementNotFound = errors.New("Element Not Found")
+	ErrElementNotFound = errors.New("element Not Found")
 	camel              = regexp.MustCompile("(^[^A-Z]*|[A-Z]*)([A-Z][^A-Z]+|$)")
 )
 
@@ -42,6 +43,11 @@ type FormInterface interface {
 	BindFromInterface(i interface{})
 
 	Render() string
+}
+
+// Mapper is the interface implemented by types that can map form values themselves
+type Mapper interface {
+	MapFormValue(v string) error
 }
 
 type Form struct {
@@ -227,24 +233,38 @@ func (form *Form) MapTo(model interface{}) {
 		}
 
 		workField := mValue.Field(i)
+		if m, ok := workField.Interface().(Mapper); ok {
+			if err := m.MapFormValue(v); err != nil {
+				log.Println("mapping error", v)
+			}
+			continue
+		}
+
+		// field can be value, but interface can be implemented for reference
+		if m, ok := workField.Addr().Interface().(Mapper); ok {
+			if err := m.MapFormValue(v); err != nil {
+				log.Println("mapping error", v)
+			}
+			continue
+		}
 
 		switch workField.Kind() {
 		case reflect.Int, reflect.Int8, reflect.Int16, reflect.Int32, reflect.Int64:
 			value, err := strconv.Atoi(v)
 			if err != nil {
-				fmt.Printf("parsing error", v)
+				log.Println("parsing error", v)
 			}
 			workField.SetInt(int64(value))
 		case reflect.Uint32:
 			value, err := strconv.Atoi(v)
 			if err != nil {
-				fmt.Printf("parsing error", v)
+				log.Println("parsing error", v)
 			}
 			workField.SetUint(uint64(value))
 		case reflect.Float32, reflect.Float64:
 			value, err := strconv.ParseFloat(v, 64)
 			if err != nil {
-				fmt.Printf("parsing error", v)
+				log.Println("parsing error", v)
 			}
 			workField.SetFloat(value)
 		case reflect.String:
@@ -254,7 +274,7 @@ func (form *Form) MapTo(model interface{}) {
 		case reflect.Bool:
 			value, err := strconv.ParseBool(v)
 			if err != nil {
-				fmt.Println("parsing error", field.GetLabel(), v)
+				log.Println("parsing error", field.GetLabel(), v)
 			}
 			workField.SetBool(value)
 		case reflect.Struct:
@@ -264,7 +284,7 @@ func (form *Form) MapTo(model interface{}) {
 				t, err := time.Parse(layout, v)
 
 				if err != nil {
-					fmt.Println("parsing error", v)
+					log.Println("parsing error", v)
 				}
 				workField.Set(reflect.ValueOf(t))
 			case "goform.File":
@@ -285,68 +305,68 @@ func (form *Form) MapTo(model interface{}) {
 				case "uint32":
 					intV, err := strconv.Atoi(v)
 					if err != nil {
-						fmt.Println("an error occurred while str to uint32", vStructFirstKind)
+						log.Println("an error occurred while str to uint32", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(uint32(intV)))
 				case "int64":
 					intV, err := strconv.Atoi(v)
 					if err != nil {
-						fmt.Println("an error occurred while str to int64", vStructFirstKind)
+						log.Println("an error occurred while str to int64", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(int64(intV)))
 				case "int32":
 					intV, err := strconv.Atoi(v)
 					if err != nil {
-						fmt.Println("an error occurred while str to int32", vStructFirstKind)
+						log.Println("an error occurred while str to int32", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(int32(intV)))
 				case "int16":
 					intV, err := strconv.Atoi(v)
 					if err != nil {
-						fmt.Println("an error occurred while str to int16", vStructFirstKind)
+						log.Println("an error occurred while str to int16", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(int16(intV)))
 				case "int8":
 					intV, err := strconv.Atoi(v)
 					if err != nil {
-						fmt.Println("an error occurred while str to int8", vStructFirstKind)
+						log.Println("an error occurred while str to int8", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(int8(intV)))
 				case "int":
 					intV, err := strconv.Atoi(v)
 					if err != nil {
-						fmt.Println("an error occurred while str to int", vStructFirstKind)
+						log.Println("an error occurred while str to int", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(intV))
 				case "float64":
 					floatV, err := strconv.ParseFloat(v, 64)
 					if err != nil {
-						fmt.Println("an error occurred while str to float64", vStructFirstKind)
+						log.Println("an error occurred while str to float64", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(floatV))
 				case "float32":
 					floatV, err := strconv.ParseFloat(v, 32)
 					if err != nil {
-						fmt.Println("an error occurred while str to float32", vStructFirstKind)
+						log.Println("an error occurred while str to float32", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(floatV))
 				case "bool":
 					boolV, err := strconv.ParseBool(v)
 					if err != nil {
-						fmt.Println("an error occurred while str to bool", vStructFirstKind)
+						log.Println("an error occurred while str to bool", vStructFirstKind)
 						continue
 					}
 					vStruct.Field(0).Set(reflect.ValueOf(boolV))
 				default:
-					fmt.Println("unknown interface field kind", vStructFirstKind)
+					log.Println("unknown interface field kind", vStructFirstKind)
 				}
 
 				workField.Set(vStruct)
@@ -362,48 +382,48 @@ func (form *Form) MapTo(model interface{}) {
 			case reflect.Uint32:
 				value, err := strconv.Atoi(v)
 				if err != nil {
-					fmt.Printf("parsing error", v)
+					log.Println("parsing error", v)
 				}
 				iVal := uint32(value)
 				workField.Set(reflect.ValueOf(&iVal))
 			case reflect.Int64:
 				value, err := strconv.Atoi(v)
 				if err != nil {
-					fmt.Printf("parsing error", v)
+					log.Println("parsing error", v)
 				}
 				iVal := int64(value)
 				workField.Set(reflect.ValueOf(&iVal))
 			case reflect.Int32:
 				value, err := strconv.Atoi(v)
 				if err != nil {
-					fmt.Printf("parsing error", v)
+					log.Println("parsing error", v)
 				}
 				iVal := int32(value)
 				workField.Set(reflect.ValueOf(&iVal))
 			case reflect.Int16:
 				value, err := strconv.Atoi(v)
 				if err != nil {
-					fmt.Printf("parsing error", v)
+					log.Println("parsing error", v)
 				}
 				iVal := int16(value)
 				workField.Set(reflect.ValueOf(&iVal))
 			case reflect.Int8:
 				value, err := strconv.Atoi(v)
 				if err != nil {
-					fmt.Printf("parsing error", v)
+					log.Println("parsing error", v)
 				}
 				iVal := int8(value)
 				workField.Set(reflect.ValueOf(&iVal))
 			case reflect.Int:
 				value, err := strconv.Atoi(v)
 				if err != nil {
-					fmt.Printf("parsing error", v)
+					log.Println("parsing error", v)
 				}
 				workField.Set(reflect.ValueOf(&value))
 			case reflect.Float32, reflect.Float64:
 				value, err := strconv.ParseFloat(v, 64)
 				if err != nil {
-					fmt.Printf("parsing error", v)
+					log.Println("parsing error", v)
 				}
 				workField.Set(reflect.ValueOf(&value))
 			case reflect.String:
@@ -416,7 +436,7 @@ func (form *Form) MapTo(model interface{}) {
 			case reflect.Bool:
 				value, err := strconv.ParseBool(v)
 				if err != nil {
-					fmt.Printf("parsing error", v)
+					log.Println("parsing error", v)
 				}
 				workField.Set(reflect.ValueOf(&value))
 			case reflect.Struct:
@@ -426,7 +446,7 @@ func (form *Form) MapTo(model interface{}) {
 					t, err := time.Parse(layout, v)
 
 					if err != nil {
-						fmt.Println("parsing error", v)
+						log.Println("parsing error", v)
 					}
 					workField.Set(reflect.ValueOf(&t))
 				case "*goform.File":
@@ -451,68 +471,68 @@ func (form *Form) MapTo(model interface{}) {
 					case "uint32":
 						intV, err := strconv.Atoi(v)
 						if err != nil {
-							fmt.Println("an error occurred while str to uint32", vStructFirstKind)
+							log.Println("an error occurred while str to uint32", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(uint32(intV)))
 					case "int64":
 						intV, err := strconv.Atoi(v)
 						if err != nil {
-							fmt.Println("an error occurred while str to int64", vStructFirstKind)
+							log.Println("an error occurred while str to int64", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(int64(intV)))
 					case "int32":
 						intV, err := strconv.Atoi(v)
 						if err != nil {
-							fmt.Println("an error occurred while str to int32", vStructFirstKind)
+							log.Println("an error occurred while str to int32", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(int32(intV)))
 					case "int16":
 						intV, err := strconv.Atoi(v)
 						if err != nil {
-							fmt.Println("an error occurred while str to int16", vStructFirstKind)
+							log.Println("an error occurred while str to int16", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(int16(intV)))
 					case "int8":
 						intV, err := strconv.Atoi(v)
 						if err != nil {
-							fmt.Println("an error occurred while str to int8", vStructFirstKind)
+							log.Println("an error occurred while str to int8", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(int8(intV)))
 					case "int":
 						intV, err := strconv.Atoi(v)
 						if err != nil {
-							fmt.Println("an error occurred while str to int", vStructFirstKind)
+							log.Println("an error occurred while str to int", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(intV))
 					case "float64":
 						floatV, err := strconv.ParseFloat(v, 64)
 						if err != nil {
-							fmt.Println("an error occurred while str to float64", vStructFirstKind)
+							log.Println("an error occurred while str to float64", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(floatV))
 					case "float32":
 						floatV, err := strconv.ParseFloat(v, 32)
 						if err != nil {
-							fmt.Println("an error occurred while str to float32", vStructFirstKind)
+							log.Println("an error occurred while str to float32", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(floatV))
 					case "bool":
 						boolV, err := strconv.ParseBool(v)
 						if err != nil {
-							fmt.Println("an error occurred while str to bool", vStructFirstKind)
+							log.Println("an error occurred while str to bool", vStructFirstKind)
 							continue
 						}
 						vStructFirstField.Set(reflect.ValueOf(boolV))
 					default:
-						fmt.Println("unknown interface field kind", vStructFirstKind)
+						log.Println("unknown interface field kind", vStructFirstKind)
 					}
 
 					workField.Set(vStruct)
@@ -552,7 +572,7 @@ func (form *Form) BindFromPost(req *http.Request) {
 					for _, hdr := range headers {
 						var infile multipart.File
 						if infile, err = hdr.Open(); nil != err {
-							fmt.Println(err)
+							log.Println(err)
 						}
 
 						if hdr.Filename != "" {
@@ -601,7 +621,7 @@ func (form *Form) BindFromRequest(req *http.Request) {
 					for _, hdr := range headers {
 						var infile multipart.File
 						if infile, err = hdr.Open(); nil != err {
-							fmt.Println(err)
+							log.Println(err)
 						}
 
 						if hdr.Filename != "" {
@@ -656,7 +676,7 @@ func (form *Form) BindFromInterface(i interface{}) {
 		if form.Has(key) {
 			field, err := form.Get(key)
 			if err != nil {
-				fmt.Println("field not found", key)
+				log.Println("field not found", key)
 				continue
 			}
 
@@ -709,12 +729,12 @@ func (form *Form) BindFromInterface(i interface{}) {
 						field.SetValue(tVal.Format("2006-01-02"))
 						continue
 					}
-					fmt.Println("Time field could not type casting", vField.Interface())
+					log.Println("Time field could not type casting", vField.Interface())
 					continue
 				}
 				field.SetValue(strconv.Itoa(int(vField.Field(0).Int())))
 			default:
-				fmt.Println("unknown interface field kind", vType)
+				log.Println("unknown interface field kind", vType)
 			}
 		}
 	}
