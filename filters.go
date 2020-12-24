@@ -11,9 +11,10 @@ import (
 	_ "image/png"
 	"os"
 	"strings"
+	"math/rand"
+	"strconv"
 
 	"github.com/nfnt/resize"
-	uuid "github.com/satori/go.uuid"
 	"github.com/semihs/goform/slugify"
 )
 
@@ -61,8 +62,8 @@ func (filter *RenameFilter) Apply() error {
 	fileName := path + strings.Replace(strings.ToLower(slugify.Marshal(filter.File.Name)), "."+filter.File.Extension, "", -1)
 
 	if randomize {
-		uid, _ := uuid.NewV4()
-		fileName = fileName + "-" + uid.String()
+		uid := rand.Intn(9999999999)
+		fileName = fileName + "-" + strconv.Itoa(uid)
 	}
 	fileName = strings.ToLower(fileName)
 
