@@ -58,6 +58,7 @@ type ElementInterface interface {
 	SetDeletionUrl(string)
 
 	AddValueOption(valueOption *ValueOption)
+	ClearValueOptions()
 
 	IsChecked() bool
 	IsCheckedInValues(string) bool
@@ -244,6 +245,10 @@ func (element *Element) SetDeletionUrl(n string) {
 
 func (element *Element) AddValueOption(valueOption *ValueOption) {
 	element.ValueOptions = append(element.ValueOptions, valueOption)
+}
+
+func (element *Element) ClearValueOptions() {
+	element.ValueOptions = nil
 }
 
 func (element *Element) IsChecked() bool {
