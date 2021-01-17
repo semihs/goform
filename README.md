@@ -181,6 +181,7 @@ import (
 	"github.com/semihs/goform"
 	"net/http"
 	"text/template"
+	"strconv"
 )
 
 var view string = `
@@ -191,21 +192,56 @@ var view string = `
 </form>
 `
 
+type Bool3 struct {
+	Defined bool
+	Value   bool
+}
+
+func (b3 *Bool3) MapFormValue(v string) error {
+	if v == "" {
+		b3.Defined = false
+		return nil
+	}
+
+	value, err := strconv.ParseBool(v)
+	if err != nil {
+		return err
+	}
+
+	b3.Defined = true
+	b3.Value = value
+	return nil
+}
+
 type YourStruct struct {
 	Email    string
 	Password string
+	FeelGood Bool3
 }
 
 func main() {
+	boolUndefValues := []*goform.ValueOption{{
+		Value: "",
+		Label: "Not your business",
+	}, {
+		Value: "1",
+		Label: "Yup",
+	}, {
+		Value: "0",
+		Label: "Nope",
+	}}
+
 	email := goform.NewEmailElement("email", "Email", []*goform.Attribute{}, []goform.ValidatorInterface{
 		&goform.RequiredValidator{},
 	}, []goform.FilterInterface{})
 	password := goform.NewPasswordElement("password", "Password", []*goform.Attribute{}, []goform.ValidatorInterface{}, []goform.FilterInterface{})
+	feelGood := goform.NewSelectElement("feel_good", "Feeling Good?", nil, boolUndefValues, nil, nil)
 	submit := goform.NewButtonElement("submit", "Login", []*goform.Attribute{})
 
 	form := goform.NewGoForm()
 	form.Add(email)
 	form.Add(password)
+	form.Add(feelGood)
 	form.Add(submit)
 
 	tpl, _ := template.New("tpl").Parse(view)
@@ -218,7 +254,7 @@ func main() {
 		r.ParseForm()
 		form.BindFromRequest(r)
 
-		s := YourStruct{}
+		var s YourStruct
 		form.MapTo(&s)
 		fmt.Println(s)
 	})
